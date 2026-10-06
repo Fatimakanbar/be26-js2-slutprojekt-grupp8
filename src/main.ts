@@ -24,7 +24,7 @@ createTask(testTask)
 .then(() => console.log("task skapad"))
 .catch(() => console.log("error"));
 */
-
+/*
 getTasks()
   .then((tasks) => {
     console.log(tasks);
@@ -32,3 +32,4 @@ getTasks()
   .catch((error) => {
     console.error(error);
   });
+  */
