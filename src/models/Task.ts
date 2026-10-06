@@ -4,7 +4,8 @@ export type Priority = 1 | 2 | 3;
 
 export type Status = "new" | "ongoing" | "finished";
 
-class Task {
+export class Task {
+  private _id?: string;
   private _name: string;
   private _description: string;
   private _category: Category;
@@ -23,9 +24,11 @@ class Task {
     priority: Priority,
     deadline: Date,
     createdDate: Date,
-    assignedMemberID: string,
-    finishedDate: Date,
+    assignedMemberId?: string,
+    finishedDate?: Date,
+    id?: string,
   ) {
+    this._id = id;
     this._name = name;
     this._description = description;
     this._category = category;
@@ -33,42 +36,46 @@ class Task {
     this._priority = priority;
     this._deadline = deadline;
     this._createdDate = createdDate;
-    this._assignedMemberId = assignedMemberID;
+    this._assignedMemberId = assignedMemberId;
     this._finishedDate = finishedDate;
   }
 
-  private get name(): string {
+  get id(): string | undefined{
+    return this._id;
+   }
+
+  get name(): string {
     return this._name;
   }
 
-  private get description(): string {
+  get description(): string {
     return this._description;
   }
 
-  private get category(): Category {
+  get category(): Category {
     return this._category;
   }
-  private get status(): Status {
+  get status(): Status {
     return this._status;
   }
 
-  private get priority(): Priority {
+  get priority(): Priority {
     return this._priority;
   }
 
-  private get deadline(): Date {
+  get deadline(): Date {
     return this._deadline;
   }
 
-  private get createdDate(): Date {
+  get createdDate(): Date {
     return this._createdDate;
   }
 
-  private get assignedMemberID(): string | undefined {
+  get assignedMemberID(): string | undefined {
     return this._assignedMemberId;
   }
 
-  private get finishedDate(): Date | undefined {
+  get finishedDate(): Date | undefined {
     return this._finishedDate;
   }
 }
