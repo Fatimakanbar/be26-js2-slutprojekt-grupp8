@@ -1,14 +1,14 @@
 export class Project {
   private _name: string;
   private _description: string;
-  private _deadline: Date;
+  private _deadline: string;
   private _memberIDs?: string[];
   private _taskIDs?: string[];
 
   constructor(
     name: string,
     description: string,
-    deadline: Date,
+    deadline: string,
     memberIDs: string[],
     taskIDs: string[],
   ) {
@@ -26,7 +26,7 @@ export class Project {
     return this._description;
   }
 
-  get deadline(): Date {
+  get deadline(): string {
     return this._deadline;
   }
 
