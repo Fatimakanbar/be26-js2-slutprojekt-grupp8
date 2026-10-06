@@ -1,14 +1,14 @@
-class Project {
+export class Project {
   private _name: string;
   private _description: string;
-  private _deadline: Date;
+  private _deadline: string;
   private _memberIDs?: string[];
   private _taskIDs?: string[];
 
   constructor(
     name: string,
     description: string,
-    deadline: Date,
+    deadline: string,
     memberIDs: string[],
     taskIDs: string[],
   ) {
@@ -19,22 +19,22 @@ class Project {
     this._taskIDs = taskIDs;
   }
 
-  private get name(): string {
-    return this.name;
+  get name(): string {
+    return this._name;
   }
-  private get description(): string {
-    return this.description;
-  }
-
-  private get deadline(): Date {
-    return this.deadline;
+  get description(): string {
+    return this._description;
   }
 
-  private get memberIDs(): string[] | undefined {
-    return this.memberIDs;
+  get deadline(): string {
+    return this._deadline;
   }
 
-  private get taskIDs(): string[] | undefined {
-    return this.taskIDs;
+  get memberIDs(): string[] | undefined {
+    return this._memberIDs;
+  }
+
+  get taskIDs(): string[] | undefined {
+    return this._taskIDs;
   }
 }
