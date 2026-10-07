@@ -16,3 +16,12 @@
   gap: 15px;
   border-radius: 8px;
 }
+
+#taskForm {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 30px;
+  gap: 15px;
+  border-radius: 8px;
+}
