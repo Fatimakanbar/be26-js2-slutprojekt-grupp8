@@ -2,6 +2,7 @@ import { Task, type Priority } from "../models/Task";
 import type { Category } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { createTask } from "../database/TaskFirebaseRequest";
+import { loadTasks } from "./TaskBoard";
 
 const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
 
@@ -39,11 +40,13 @@ async function submitForm(event: SubmitEvent) {
     values.category as Category,
     "new",
     Number(values.priority) as Priority,
-    new Date(values.deadline as string),
-    new Date(),
+    values.deadline as string,
+    new Date().toISOString().split("T")[0],
     values.member as string,
   );
+  
   await createTask(task);
+  await loadTasks();
 
   form.remove();
 
