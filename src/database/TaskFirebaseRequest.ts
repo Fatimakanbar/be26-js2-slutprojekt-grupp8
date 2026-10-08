@@ -60,3 +60,45 @@ export async function getTasks(): Promise<Task[]> {
     );
   });
 }
+
+export async function patchDeadline(
+  taskId: string,
+  deadline: string,
+): Promise<Response> {
+  const options = {
+    method: "PATCH",
+    body: JSON.stringify({ _deadline: deadline }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return response;
+}
+
+export async function patchPriority(
+  taskId: string,
+  priority: Priority,
+): Promise<Response> {
+  const options = {
+    method: "PATCH",
+    body: JSON.stringify({ _priority: priority }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return response;
+}

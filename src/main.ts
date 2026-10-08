@@ -24,27 +24,3 @@ import "./Views/forms/projectForm";
 
 // console.log(response);
 
-/*
-const testTask = new Task(
-    "Test task",
-    "Testuppgift",
-    "frontend",
-    "new",
-    1,
-    new Date("2026-10-08"),
-    new Date()
-);
-
-createTask(testTask)
-.then(() => console.log("task skapad"))
-.catch(() => console.log("error"));
-*/
-/*
-getTasks()
-  .then((tasks) => {
-    console.log(tasks);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-  */

@@ -17,11 +17,36 @@
   border-radius: 8px;
 }
 
-#taskForm {
+#taskFormContainer form {
   display: flex;
   flex-direction: column;
+  max-width: 500px;
+  margin: 20px auto;
   background-color: white;
   padding: 30px;
   gap: 15px;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+#taskFormContainer label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#taskFormContainer input,
+#taskFormContainer textarea,
+#taskFormContainer select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#taskFormContainer button {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

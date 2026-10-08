@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <div id="taskFormContainer">
-      <h1>Projekt namn</h1>
-      <div id="newTasksContainer"></div>
-      <div id="ongoingTasksContainer"></div>
-      <div id="doneTasksContainer"></div>
-    </div>
+    <h1>Projekt namn</h1>
+    <label for="sortTasks">Filtrera:</label>
+    <select id="sortTasks">
+      <option value="deadline-desc">Deadline ↓</option>
+      <option value="deadline-asc">Deadline ↑</option>
+      <option value="title-asc">Titel A → Ö</option>
+      <option value="title-desc">Titel Ö → A</option>
+    </select>
+    <div id="newTasksContainer"></div>
+    <div id="ongoingTasksContainer"></div>
+    <div id="doneTasksContainer"></div>
+    <div id="taskFormContainer"></div>
     <button id="addTaskBtn">Lägg till uppgift</button>
     <script type="module" src="/src/Views/Project.ts"></script>
   </body>

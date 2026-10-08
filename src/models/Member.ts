@@ -17,18 +17,18 @@ export class Member {
     this._taskAmount = taskAmount;
     this._projectIds = projectIds;
   }
-  private get name(): string {
+  get name(): string {
     return this._name;
   }
-  private get category(): Category {
+  get category(): Category {
     return this._category;
   }
 
-  private get taskAmount(): number | undefined {
+  get taskAmount(): number | undefined {
     return this?._taskAmount;
   }
 
-  private get projectIds(): string[] | undefined {
+  get projectIds(): string[] | undefined {
     return this?._projectIds;
   }
 }
