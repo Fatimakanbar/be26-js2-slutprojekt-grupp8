@@ -6,6 +6,7 @@ import { getTasks } from "./database/TaskFirebaseRequest";
 import { CreateProject } from "./database/ProjectFirebaseRequest";
 import { Project } from "./models/Projects";
 import "./Views/forms/projectForm";
+import "./Views/Overview";
 
 //const testMember = new Member("Patrik", "frontend", 5, ["build app"]);
 //const response = await CreateMember(testMember);
