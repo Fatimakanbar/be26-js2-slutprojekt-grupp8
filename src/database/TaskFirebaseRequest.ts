@@ -8,10 +8,10 @@ type FirebaseTask = {
   _category: Category;
   _status: Status;
   _priority: Priority;
-  _deadline: Date;
-  _createdDate: Date;
+  _deadline: string;
+  _createdDate: string;
   _assignedMemberId?: string;
-  _finishedDate?: Date;
+  _finishedDate?: string;
 };
 
 type FirebaseTaskResponse = {

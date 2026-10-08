@@ -11,10 +11,10 @@ export class Task {
   private _category: Category;
   private _status: Status;
   private _priority: Priority;
-  private _deadline: Date;
-  private _createdDate: Date;
+  private _deadline: string;
+  private _createdDate: string;
   private _assignedMemberId?: string;
-  private _finishedDate?: Date;
+  private _finishedDate?: string;
 
   constructor(
     name: string,
@@ -22,10 +22,10 @@ export class Task {
     category: Category,
     status: Status,
     priority: Priority,
-    deadline: Date,
-    createdDate: Date,
+    deadline: string,
+    createdDate: string,
     assignedMemberId?: string,
-    finishedDate?: Date,
+    finishedDate?: string,
     id?: string,
   ) {
     this._id = id;
@@ -63,11 +63,11 @@ export class Task {
     return this._priority;
   }
 
-  get deadline(): Date {
+  get deadline(): string {
     return this._deadline;
   }
 
-  get createdDate(): Date {
+  get createdDate(): string{
     return this._createdDate;
   }
 
@@ -75,7 +75,7 @@ export class Task {
     return this._assignedMemberId;
   }
 
-  get finishedDate(): Date | undefined {
+  get finishedDate(): string| undefined {
     return this._finishedDate;
   }
 }
