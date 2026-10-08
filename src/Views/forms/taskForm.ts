@@ -1,3 +1,4 @@
+
 export function createTaskForm(): HTMLFormElement {
   const form = document.createElement("form");
   form.id = "taskForm";
@@ -83,6 +84,12 @@ export function createTaskForm(): HTMLFormElement {
   submitButton.type = "submit";
   submitButton.textContent = "Spara";
 
+  const cancelButton = document.createElement("button");
+  cancelButton.type = "button";
+  cancelButton.textContent = "Avbryt";
+  cancelButton.id = "cancelTaskButton";
+  
+
   form.append(
     nameLabel,
     nameInput,
@@ -97,7 +104,10 @@ export function createTaskForm(): HTMLFormElement {
     memberLabel,
     memberSelect,
     submitButton,
+    cancelButton,
   );
 
+
   return form;
+  
 }

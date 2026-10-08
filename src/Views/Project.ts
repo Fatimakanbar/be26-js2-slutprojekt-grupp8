@@ -3,12 +3,23 @@ import type { Category } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { createTask } from "../database/TaskFirebaseRequest";
 
-const addTaskBtn = document.querySelector("#addTaskBtn");
+const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
 
 addTaskBtn?.addEventListener("click", () => {
+  addTaskBtn.hidden = true;
+
   const form = createTaskForm();
 
   form.addEventListener("submit", submitForm);
+
+  const cancelButton = form.querySelector(
+    "#cancelTaskButton",
+  ) as HTMLButtonElement;
+
+  cancelButton.addEventListener("click", () => {
+    form.remove();
+    addTaskBtn.hidden = false;
+  });
 
   const taskFormContainer = document.querySelector("#taskFormContainer");
   taskFormContainer?.append(form);
@@ -34,19 +45,11 @@ async function submitForm(event: SubmitEvent) {
   );
   await createTask(task);
 
+  form.remove();
+
+  if (addTaskBtn) {
+    addTaskBtn.hidden = false;
+  }
+
   console.log(task);
-
-  //take values from evemt
-
-  // const task = new Task(
-  //   nameInput.value,
-  //   descriptionInput.value,
-  //   categorySelect.value as Category,
-  //   "new",
-  //   Number(prioritySelect.value) as Priority,
-  //   new Date(deadlineInput.value),
-  //   new Date(),
-  //   memberSelect.value
-  // );
-  // await createTask(task);
 }
