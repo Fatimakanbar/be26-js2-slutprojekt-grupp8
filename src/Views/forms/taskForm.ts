@@ -3,22 +3,25 @@ export function createTaskForm(): HTMLFormElement {
   form.id = "taskForm";
 
   const nameLabel = document.createElement("label");
-  nameLabel.textContent = "Namn";
+  nameLabel.textContent = "Titel";
 
   const nameInput = document.createElement("input");
   nameInput.type = "text";
   nameInput.required = true;
+  nameInput.name = "name";
 
   const descriptionLabel = document.createElement("label");
   descriptionLabel.textContent = "Beskrivning";
 
   const descriptionInput = document.createElement("textarea");
   descriptionInput.required = true;
+  descriptionInput.name = "description";
 
   const categoryLabel = document.createElement("label");
   categoryLabel.textContent = "Kategori";
 
   const categorySelect = document.createElement("select");
+  categorySelect.name = "category";
 
   const categoryOptionFrontend = document.createElement("option");
   categoryOptionFrontend.value = "frontend";
@@ -42,6 +45,7 @@ export function createTaskForm(): HTMLFormElement {
   priorityLabel.textContent = "Prioritet";
 
   const prioritySelect = document.createElement("select");
+  prioritySelect.name = "priority";
 
   const priorityOptionOne = document.createElement("option");
   priorityOptionOne.value = "1";
@@ -61,20 +65,23 @@ export function createTaskForm(): HTMLFormElement {
     priorityOptionThree,
   );
 
-const deadlineLabel = document.createElement("label");
-deadlineLabel.textContent = "Deadline";
+  const deadlineLabel = document.createElement("label");
+  deadlineLabel.textContent = "Deadline";
 
-const deadlineInput = document.createElement("input");
-deadlineInput.type = "date";
-deadlineInput.required = true;
+  const deadlineInput = document.createElement("input");
+  deadlineInput.type = "date";
+  deadlineInput.required = true;
+  deadlineInput.name = "deadline";
 
-const memberLabel = document.createElement("label");
-memberLabel.textContent = "Tilldelad member";
+  const memberLabel = document.createElement("label");
+  memberLabel.textContent = "Tilldelad member";
 
-const memberSelect = document.createElement("select");
+  const memberSelect = document.createElement("select");
+  memberSelect.name = "member";
 
-
-
+  const submitButton = document.createElement("button");
+  submitButton.type = "submit";
+  submitButton.textContent = "Spara";
 
   form.append(
     nameLabel,
@@ -86,9 +93,11 @@ const memberSelect = document.createElement("select");
     priorityLabel,
     prioritySelect,
     deadlineLabel,
-    deadlineInput
+    deadlineInput,
+    memberLabel,
+    memberSelect,
+    submitButton,
   );
-
 
   return form;
 }
