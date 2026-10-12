@@ -1,5 +1,6 @@
 import { CreateProject } from "../../database/ProjectFirebaseRequest";
 import { Project } from "../../models/Projects";
+import { fetchMembers } from "../../database/MemberFirebaseRequest";
 const addProjectBtn = document.querySelector(
   "#addProjectBtn",
 ) as HTMLButtonElement;
@@ -61,6 +62,35 @@ addProjectBtn.addEventListener("click", () => {
   addMemberButton.textContent = "Lägg till medlemmar";
   const memberListDiv = document.createElement("div") as HTMLDivElement;
   memberListDiv.id = "membersContainer";
+  memberListDiv.style.display = "none";
+
+  const memberDropdown = document.createElement("div") as HTMLDivElement;
+  memberDropdown.id = "memberDropdown";
+  memberDropdown.append(addMemberButton, memberListDiv);
+
+  addMemberButton.addEventListener("click", async () => {
+    if (memberListDiv.style.display === "none") {
+      memberListDiv.style.display = "block";
+    } else {
+      memberListDiv.style.display = "none";
+    }
+
+    if (memberListDiv.children.length === 0) {
+      const members = await fetchMembers();
+
+      for (const member of members) {
+        const memberBox = document.createElement("input") as HTMLInputElement;
+        memberBox.type = "checkbox";
+        memberBox.value = member.id;
+        const memberNameLabel = document.createElement(
+          "label",
+        ) as HTMLLabelElement;
+        memberNameLabel.textContent = member.name;
+        memberNameLabel.append(memberBox);
+        memberListDiv.append(memberNameLabel);
+      }
+    }
+  });
 
   const submitButton = document.createElement("button") as HTMLButtonElement;
   submitButton.type = "submit";
@@ -80,11 +110,25 @@ addProjectBtn.addEventListener("click", () => {
       alert("Vänligen fyll i alla fält innan du skapar projektet.");
       return;
     }
+
+    const checkboxes = memberListDiv.querySelectorAll<HTMLInputElement>(
+      'input[type="checkbox"]',
+    );
+    const selectedMembersIDs: string[] = [];
+
+    for (const checkbox of checkboxes) {
+      console.log("Checkbox:", checkbox.value, checkbox.checked);
+      if (checkbox.checked) {
+        selectedMembersIDs.push(checkbox.value);
+      }
+    }
+
+    console.log("Valda medlems-ID:n:", selectedMembersIDs);
     const newProject = new Project(
       projectName,
       projectDescription,
       projectDeadline,
-      [],
+      selectedMembersIDs,
       [],
     );
     await CreateProject(newProject);
@@ -100,8 +144,7 @@ addProjectBtn.addEventListener("click", () => {
     projectDescriptionInput,
     dateLabel,
     dateInput,
-    addMemberButton,
-    memberListDiv,
+    memberDropdown,
     submitButton,
   );
 

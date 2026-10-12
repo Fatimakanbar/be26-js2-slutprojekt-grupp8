@@ -325,3 +325,25 @@ button:hover {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+#memberDropdown {
+  position: relative;
+}
+
+#membersContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 200px;
+  z-index: 10;
+}
+
+#membersContainer label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
