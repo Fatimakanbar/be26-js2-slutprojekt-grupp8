@@ -5,12 +5,13 @@ import {
   patchPriority,
   patchAssignment,
   deleteTask,
-  //getMembers,
 } from "../database/TaskFirebaseRequest";
 
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { postTask } from "../database/TaskFirebaseRequest";
+import { fetchMembers } from "../database/MemberFirebaseRequest";
+
 
 await loadTasks();
 
@@ -127,9 +128,10 @@ export async function renderTask(
   const memberContainer = document.createElement("div");
 
   if (task.assignedMemberID) {
-    const label = document.createElement("label")
-    label.textContent = "Tilldelad medlem: "
-    const memberName = document.createElement("p")
+    const label = document.createElement("label");
+    label.textContent = "Tilldelad medlem: ";
+
+    const memberName = document.createElement("p");
     memberName.textContent = members.find(member => member.id === task.assignedMemberID)?.name as string
     memberContainer.append(label, memberName);
   } else {
@@ -224,7 +226,7 @@ function sortTasks(tasks: Task[], sortBy: string): Task[] {
 
 export async function loadTasks() {
   const tasks = await getTasks();
-  const members = await getMembers();
+  const members = await fetchMembers();
   const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
   const sortedTasks = sortTasks(tasks, sortSelect?.value ?? "deadline-desc");
 
