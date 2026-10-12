@@ -1,17 +1,18 @@
 import { Task, type Priority } from "../models/Task";
 import {
-  getTasks,
+  getTaskForProject,
   patchDeadline,
   patchPriority,
   patchAssignment,
   deleteTask,
 } from "../database/TaskFirebaseRequest";
-
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { postTask } from "../database/TaskFirebaseRequest";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
 
+const params = new URLSearchParams(window.location.search);
+const projectId = params.get("id");
 
 await loadTasks();
 
@@ -48,6 +49,11 @@ async function submitForm(event: SubmitEvent) {
 
   const form = event.currentTarget as HTMLFormElement;
 
+  if (!projectId) {
+    console.error("Project ID is not available");
+    return;
+  }
+
   const formData = new FormData(form);
   const values = Object.fromEntries(formData);
 
@@ -57,6 +63,7 @@ async function submitForm(event: SubmitEvent) {
     values.category as Category,
     Number(values.priority) as Priority,
     values.deadline as string,
+    projectId,
     values.member as string,
   );
 
@@ -132,7 +139,9 @@ export async function renderTask(
     label.textContent = "Tilldelad medlem: ";
 
     const memberName = document.createElement("p");
-    memberName.textContent = members.find(member => member.id === task.assignedMemberID)?.name as string
+    memberName.textContent = members.find(
+      (member) => member.id === task.assignedMemberID,
+    )?.name as string;
     memberContainer.append(label, memberName);
   } else {
     const memberLabel = document.createElement("label");
@@ -225,7 +234,11 @@ function sortTasks(tasks: Task[], sortBy: string): Task[] {
 }
 
 export async function loadTasks() {
-  const tasks = await getTasks();
+  if (!projectId) {
+    return;
+  }
+
+  const tasks = await getTaskForProject(projectId);
   const members = await fetchMembers();
   const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
   const sortedTasks = sortTasks(tasks, sortSelect?.value ?? "deadline-desc");

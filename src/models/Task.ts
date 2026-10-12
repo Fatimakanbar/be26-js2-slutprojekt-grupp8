@@ -15,6 +15,7 @@ export class Task {
   private _createdDate: string;
   private _assignedMemberId?: string;
   private _finishedDate?: string;
+  private _projectId: string;
 
   constructor(
     name: string,
@@ -22,6 +23,7 @@ export class Task {
     category: Category,
     priority: Priority,
     deadline: string,
+    projectId: string,
     assignedMemberId?: string,
     createdDate?: string,
     status?: Status,
@@ -32,6 +34,7 @@ export class Task {
     this._name = name;
     this._description = description;
     this._category = category;
+    this._projectId = projectId;
 
     if (!status) {
       this._status = "new";
@@ -88,5 +91,9 @@ export class Task {
 
   get finishedDate(): string | undefined {
     return this._finishedDate;
+  }
+
+  get projectId() : string {
+    return this._projectId;
   }
 }

@@ -1,5 +1,5 @@
 import { getProjects } from "../database/ProjectFirebaseRequest";
-import { getTasks } from "../database/TaskFirebaseRequest";
+import { getAllTasks } from "../database/TaskFirebaseRequest";
 import { Task } from "../models/Task";
 import { Project } from "../models/Projects";
 import type { Status } from "../models/Task";
@@ -39,7 +39,7 @@ async function displayProjects() {
 
 async function amountOfOngoingProjects(project: Project) {
   try {
-    const tasks = await getTasks();
+    const tasks = await getAllTasks();
     console.log("Alla tasks:", tasks);
     console.log("Projektets taskIDs:", project.taskIDs);
 

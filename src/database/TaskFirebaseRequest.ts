@@ -9,6 +9,7 @@ type FirebaseTask = {
   _status: Status;
   _priority: Priority;
   _deadline: string;
+  _projectId: string;
   _createdDate: string;
   _assignedMemberId?: string;
   _finishedDate?: string;
@@ -16,7 +17,7 @@ type FirebaseTask = {
 
 type FirebaseTaskResponse = {
   [id: string]: FirebaseTask;
-};
+} | null;
 
 export async function postTask(task: Task): Promise<Response> {
   const options = {
@@ -36,7 +37,7 @@ export async function postTask(task: Task): Promise<Response> {
   return response;
 }
 
-export async function getTasks(): Promise<Task[]> {
+export async function getAllTasks(): Promise<Task[]> {
   const response = await fetch(urlBuilder("Tasks"));
 
   if (!response.ok) {
@@ -45,20 +46,31 @@ export async function getTasks(): Promise<Task[]> {
 
   const data = (await response.json()) as FirebaseTaskResponse;
 
-  return Object.entries(data).map(([id, task]) => {
-    return new Task(
-      task._name,
-      task._description,
-      task._category,
-      task._priority,
-      task._deadline,
-      task._assignedMemberId,
-      task._createdDate,
-      task._status,
-      task._finishedDate,
-      id,
-    );
-  });
+  if (!data) {
+    return [];
+  }
+
+  return Object.entries(data).map(
+    ([id, task]) =>
+      new Task(
+        task._name,
+        task._description,
+        task._category,
+        task._priority,
+        task._deadline,
+        task._projectId,
+        task._assignedMemberId,
+        task._createdDate,
+        task._status,
+        task._finishedDate,
+        id,
+      ),
+  );
+}
+
+export async function getTaskForProject(projectId: string): Promise<Task[]> {
+  const tasks = await getAllTasks();
+  return tasks.filter((task) => task.projectId === projectId);
 }
 
 export async function patchDeadline(
@@ -134,5 +146,3 @@ export async function deleteTask(taskId: string): Promise<Response> {
 
   return response;
 }
-
-
