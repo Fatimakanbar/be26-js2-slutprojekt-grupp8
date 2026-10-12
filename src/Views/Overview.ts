@@ -23,6 +23,10 @@ async function displayProjects() {
         <p>Members: ${project.memberIDs?.length ?? 0}</p>
         <p>Ongoing Tasks: ${ongoingTasksCount}</p>
       `;
+      projectElement.addEventListener("click", () => {
+        console.log("Clicked project:", project.name);
+        window.location.href = `/src/Views/project.html?id=${project.id}`;
+      });
 
       projectContainer.appendChild(projectElement);
     }
