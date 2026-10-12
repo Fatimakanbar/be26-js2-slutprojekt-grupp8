@@ -20,11 +20,11 @@ export class Task {
     name: string,
     description: string,
     category: Category,
-    status: Status,
     priority: Priority,
     deadline: string,
-    createdDate: string,
     assignedMemberId?: string,
+    createdDate?: string,
+    status?: Status,
     finishedDate?: string,
     id?: string,
   ) {
@@ -32,17 +32,28 @@ export class Task {
     this._name = name;
     this._description = description;
     this._category = category;
-    this._status = status;
+
+    if (!status) {
+      this._status = "new";
+    } else {
+      this._status = status;
+    }
+
+    if (!createdDate) {
+      this._createdDate = new Date().toISOString().split("T")[0];
+    } else {
+      this._createdDate = createdDate;
+    }
+
     this._priority = priority;
     this._deadline = deadline;
-    this._createdDate = createdDate;
     this._assignedMemberId = assignedMemberId;
     this._finishedDate = finishedDate;
   }
 
-  get id(): string | undefined{
+  get id(): string | undefined {
     return this._id;
-   }
+  }
 
   get name(): string {
     return this._name;
@@ -67,7 +78,7 @@ export class Task {
     return this._deadline;
   }
 
-  get createdDate(): string{
+  get createdDate(): string {
     return this._createdDate;
   }
 
@@ -75,7 +86,7 @@ export class Task {
     return this._assignedMemberId;
   }
 
-  get finishedDate(): string| undefined {
+  get finishedDate(): string | undefined {
     return this._finishedDate;
   }
 }
