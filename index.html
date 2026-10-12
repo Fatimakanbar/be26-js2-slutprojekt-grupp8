@@ -1,18 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/style.css" />
-    <title>scrum-board grupp_8</title>
-  </head>
-  <body>
-    <button id="addProjectBtn">Lägg till projekt</button>
-    <div id="projectFormContainer"></div>
 
-    <div id="projectContainer"></div>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <title>scrum-board grupp_8</title>
+  <script type="module" src="/src/main.ts"></script>
+
+</head>
+
+<body>
+  <button id="addProjectBtn">Lägg till projekt</button>
+  <div id="projectFormContainer"></div>
+
+  <div id="projectContainer"></div>
+  <div id="app"></div>
+
+
+
+
+
+  <h2>Lägg till medlem</h2>
+  <form id="MemberForm">
+    <input id="nameInput" type="text" placeholder="Name" required />
+    <select id="memberCategory" required>
+      <option value="" disabled selected>Välj Category</option>
+      <option value="frontend">frontend</option>
+      <option value="backend">backend</option>
+      <option value="ux">ux</option>
+    </select>
+    <button type="submit">Lägg till</button>
+  </form>
+  <p id="member-error" style="color:red;"></p>
+
+  <h2>Nya medlemmar</h2>
+  <ul id="member-list"></ul>
+
+</body>
+
 </html>
