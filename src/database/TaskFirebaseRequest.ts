@@ -136,7 +136,7 @@ export async function deleteTask(taskId: string): Promise<Response> {
 }
 
 //skapar tillfällig getMembers funktion för att kunna bygga vidare med tasks
-
+/*
 type FirebaseMember = {
   _name: string;
   _category: Category;
@@ -167,3 +167,4 @@ export async function getMembers(): Promise<Member[]> {
     );
   });
 }
+*/
