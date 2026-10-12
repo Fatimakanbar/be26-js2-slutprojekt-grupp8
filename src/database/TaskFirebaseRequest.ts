@@ -135,36 +135,4 @@ export async function deleteTask(taskId: string): Promise<Response> {
   return response;
 }
 
-//skapar tillfällig getMembers funktion för att kunna bygga vidare med tasks
-/*
-type FirebaseMember = {
-  _name: string;
-  _category: Category;
-  _taskAmount?: number;
-  _projectId?: string[];
-};
 
-type FirebaseMemberResponse = {
-  [id: string]: FirebaseMember;
-};
-
-export async function getMembers(): Promise<Member[]> {
-  const response = await fetch(urlBuilder("Members"));
-
-  if (!response.ok) {
-    throw new Error("Something went wrong");
-  }
-
-  const data = await response.json() as FirebaseMemberResponse;
-
-  return Object.entries(data).map(([id, member]) => {
-    return new Member(
-      member._name,
-      member._category,
-      member._taskAmount,
-      member._projectId,
-      id,
-    );
-  });
-}
-*/
