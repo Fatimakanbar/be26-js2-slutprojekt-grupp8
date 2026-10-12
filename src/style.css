@@ -1,3 +1,20 @@
+#addProjectBtn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+
+#addProjectBtn:hover {
+  background-color: #1d4ed8;
+}
+
+#overviewContainer {
+  padding: 30px;
+}
 #formOverlay {
   position: fixed;
   inset: 0;
@@ -15,8 +32,53 @@
   padding: 30px;
   gap: 15px;
   border-radius: 8px;
+  width: 450px;
+  max-width: 90%;
+  box-sizing: border-box;
+  position: relative;
 }
 
+#closeProjectForm {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+}
+
+#projectForm input,
+#projectForm textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#projectForm button {
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#submitProjectButton {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+#submitProjectButton:hover {
+  background-color: #1d4ed8;
+}
+
+#addProjectMemberButton {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+#addProjectMemberButton:hover {
+  background-color: #e2e8f0;
+}
 #taskFormContainer form {
   display: flex;
   flex-direction: column;
@@ -84,4 +146,37 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.project {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.project:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project h3 {
+  color: #2563eb;
+}
+#projectContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) {
+  #projectContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  #projectContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
