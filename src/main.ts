@@ -1,5 +1,5 @@
 import { CreateMember } from "./database/MemberFirebaseRequest";
-import { createTask } from "./database/TaskFirebaseRequest";
+import { postTask } from "./database/TaskFirebaseRequest";
 import { Member } from "./models/Member";
 import { Task } from "./models/Task";
 import { getTasks } from "./database/TaskFirebaseRequest";

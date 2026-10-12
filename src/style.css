@@ -50,3 +50,38 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+#taskBoard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.task-column {
+  padding: 16px;
+  background-color: #f1f3f7;
+  border: 1px solid #e0e4eb;
+  border-radius: 12px;
+}
+
+.task-column h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.task-card {
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+#newTasksContainer,
+#ongoingTasksContainer,
+#doneTasksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

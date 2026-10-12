@@ -1,4 +1,3 @@
-
 export function createTaskForm(): HTMLFormElement {
   const form = document.createElement("form");
   form.id = "taskForm";
@@ -23,30 +22,22 @@ export function createTaskForm(): HTMLFormElement {
 
   const categorySelect = document.createElement("select");
   categorySelect.name = "category";
+  const categories = ["frontend", "backend", "ux"];
 
-  const categoryOptionFrontend = document.createElement("option");
-  categoryOptionFrontend.value = "frontend";
-  categoryOptionFrontend.textContent = "Frontend";
-
-  const categoryOptionBackend = document.createElement("option");
-  categoryOptionBackend.value = "backend";
-  categoryOptionBackend.textContent = "Backend";
-
-  const categoryOptionUx = document.createElement("option");
-  categoryOptionUx.value = "ux";
-  categoryOptionUx.textContent = "UX";
-
-  categorySelect.append(
-    categoryOptionFrontend,
-    categoryOptionBackend,
-    categoryOptionUx,
-  );
+  categories.forEach((category) => {
+    const categoryOption = document.createElement("option");
+    categoryOption.value = category;
+    categoryOption.textContent = category;
+    categorySelect.append(categoryOption);
+  });
 
   const priorityLabel = document.createElement("label");
   priorityLabel.textContent = "Prioritet";
 
   const prioritySelect = document.createElement("select");
   prioritySelect.name = "priority";
+
+  //make array for priority and do a loop
 
   const priorityOptionOne = document.createElement("option");
   priorityOptionOne.value = "1";
@@ -88,7 +79,6 @@ export function createTaskForm(): HTMLFormElement {
   cancelButton.type = "button";
   cancelButton.textContent = "Avbryt";
   cancelButton.id = "cancelTaskButton";
-  
 
   form.append(
     nameLabel,
@@ -107,7 +97,5 @@ export function createTaskForm(): HTMLFormElement {
     cancelButton,
   );
 
-
   return form;
-  
 }
