@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-      <button id="homeButton">Tillbaka till översikten</button>
+    <button id="homeButton">Tillbaka till översikten</button>
 
     <h1 id="projectHeader">Projekt namn</h1>
-      <p id="projectDescription">Projekt beskrivning:</p>
-      <p id="projectDeadline">Deadline:</p>
+    <p id="projectDescription">Projekt beskrivning:</p>
+    <p id="projectDeadline">Deadline:</p>
+    <h2>Projektmedlemmar</h2>
+    <div id="projectMembers"></div>
+
     <label for="sortTasks">Filtrera:</label>
     <select id="sortTasks">
       <option value="deadline-desc">Deadline ↓</option>
@@ -20,22 +23,22 @@
       <option value="title-desc">Titel Ö → A</option>
     </select>
 
-  <div id="taskBoard">
-  <section class="task-column">
-    <h2>Nya uppgifter</h2>
-    <div id="newTasksContainer"></div>
-  </section>
+    <div id="taskBoard">
+      <section class="task-column">
+        <h2>Nya uppgifter</h2>
+        <div id="newTasksContainer"></div>
+      </section>
 
-  <section class="task-column">
-    <h2>Pågående uppgifter</h2>
-    <div id="ongoingTasksContainer"></div>
-  </section>
+      <section class="task-column">
+        <h2>Pågående uppgifter</h2>
+        <div id="ongoingTasksContainer"></div>
+      </section>
 
-  <section class="task-column">
-    <h2>Avslutade uppgifter</h2>
-    <div id="doneTasksContainer"></div>
-  </section>
-</div>  
+      <section class="task-column">
+        <h2>Avslutade uppgifter</h2>
+        <div id="doneTasksContainer"></div>
+      </section>
+    </div>
 
     <div id="taskFormContainer"></div>
     <button id="addTaskBtn">Lägg till uppgift</button>

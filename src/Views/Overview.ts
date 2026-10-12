@@ -18,10 +18,10 @@ async function displayProjects() {
       const ongoingTasksCount = await amountOfOngoingProjects(project);
       projectElement.innerHTML = `
         <h3>${project.name}</h3>
-        <p>${project.description}</p>
+        <p>Projektbeskrivning: ${project.description}</p>
         <p>Deadline: ${project.deadline}</p>
-        <p>Members: ${project.memberIDs?.length ?? 0}</p>
-        <p>Ongoing Tasks: ${ongoingTasksCount}</p>
+        <p>Antal medlemmar: ${project.memberIDs?.length ?? 0}</p>
+        <p>Pågående uppgifter: ${ongoingTasksCount}</p>
       `;
       projectElement.addEventListener("click", () => {
         console.log("Clicked project:", project.name);
