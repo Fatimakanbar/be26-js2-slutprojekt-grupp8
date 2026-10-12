@@ -4,6 +4,7 @@ import {
   patchDeadline,
   patchPriority,
   patchAssignment,
+  patchTaskStatus,
   deleteTask,
 } from "../database/TaskFirebaseRequest";
 import type { Category, Member } from "../models/Member";
@@ -183,9 +184,36 @@ export async function renderTask(
     });
   }
 
+  taskCard.append(
+    title,
+    description,
+    category,
+    createdDate,
+    deadlineLabel,
+    priorityLabel,
+    memberContainer,
+  );
+  
+   if (task.status === "ongoing") {
+    const doneTaskBtn = document.createElement("button");
+    doneTaskBtn.textContent = "Klar";
+
+    taskCard.append(doneTaskBtn);
+    
+    doneTaskBtn.addEventListener("click", async () => {
+      if (!task.id) return;
+
+      await patchTaskStatus(task.id, "finished");
+      await loadTasks();
+    });
+  }
+
   const deleteTaskBtn = document.createElement("button");
   deleteTaskBtn.textContent = "Ta bort uppgift";
+  taskCard.append(deleteTaskBtn);
 
+ 
+  
   deleteTaskBtn.addEventListener("click", async () => {
     if (!task.id) return;
 
@@ -197,16 +225,6 @@ export async function renderTask(
     await loadTasks();
   });
 
-  taskCard.append(
-    title,
-    description,
-    category,
-    createdDate,
-    deadlineLabel,
-    priorityLabel,
-    memberContainer,
-    deleteTaskBtn,
-  );
 
   return taskCard;
 }

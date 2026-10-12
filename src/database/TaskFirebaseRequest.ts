@@ -136,6 +136,32 @@ export async function patchAssignment(
   return response;
 }
 
+export async function patchTaskStatus(
+  taskId: string,
+  status: Status,
+): Promise<Response> {
+  
+  let body : { _status: Status; _finishedDate?: string } = { _status: status };
+
+  if (status === "finished") {
+    body._finishedDate = new Date().toISOString().split("T")[0]
+  }
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return response;
+}
+
 export async function deleteTask(taskId: string): Promise<Response> {
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), {
     method: "DELETE",
