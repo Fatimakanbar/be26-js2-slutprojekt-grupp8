@@ -57,12 +57,14 @@ addProjectBtn.addEventListener("click", () => {
 
   const addMemberButton = document.createElement("button") as HTMLButtonElement;
   addMemberButton.type = "button";
+  addMemberButton.id = "addProjectMemberButton";
   addMemberButton.textContent = "Lägg till medlemmar";
   const memberListDiv = document.createElement("div") as HTMLDivElement;
   memberListDiv.id = "membersContainer";
 
   const submitButton = document.createElement("button") as HTMLButtonElement;
   submitButton.type = "submit";
+  submitButton.id = "submitProjectButton";
   submitButton.textContent = "Skapa projekt";
 
   const overlay = document.createElement("div") as HTMLDivElement;
