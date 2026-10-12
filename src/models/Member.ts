@@ -21,10 +21,12 @@ export class Member {
     this._taskAmount = taskAmount;
     this._projectIds = projectIds;
   }
+
   //? getter gör att andra delar av appen kan LÄSA värdena utan att kunna ändra dem
   get id(): string {
     return this._id;
   }
+
   get name(): string {
     return this._name;
   }
