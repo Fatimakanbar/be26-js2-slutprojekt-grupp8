@@ -45,6 +45,37 @@ sortSelect?.addEventListener("change", async () => {
   await loadTasks();
 });
 
+const categoryFilter = document.querySelector<HTMLSelectElement>(
+  "#filterTasksByCategory",
+);
+
+const memberFilter = document.querySelector<HTMLSelectElement>(
+  "#filterTasksByMember",
+);
+
+categoryFilter?.addEventListener("change", async () => {
+  await loadTasks();
+});
+
+memberFilter?.addEventListener("change", async () => {
+  await loadTasks();
+});
+
+async function loadMemberFilter() {
+  const members = await fetchMembers();
+
+  if (!memberFilter) return;
+
+  members.forEach((member) => {
+    const option = document.createElement("option");
+    option.value = member.id ?? "";
+    option.textContent = member.name;
+    memberFilter.append(option);
+  });
+}
+
+await loadMemberFilter();
+
 async function submitForm(event: SubmitEvent) {
   event.preventDefault();
 
@@ -259,8 +290,34 @@ export async function loadTasks() {
 
   const tasks = await getTaskForProject(projectId);
   const members = await fetchMembers();
+
+  const categoryFilter = document.querySelector<HTMLSelectElement>(
+    "#filterTasksByCategory",
+  );
+
+  const memberFilter = document.querySelector<HTMLSelectElement>(
+    "#filterTasksByMember",
+  );
+
   const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
-  const sortedTasks = sortTasks(tasks, sortSelect?.value ?? "deadline-desc");
+
+  const selectedCategory = categoryFilter?.value ?? "all";
+  const selectedMember = memberFilter?.value ?? "all";
+
+  const filteredTasks = tasks.filter((task) => {
+    const matchesCategory =
+      selectedCategory === "all" || task.category === selectedCategory;
+
+    const matchesMember =
+      selectedMember === "all" || task.assignedMemberID === selectedMember;
+
+    return matchesCategory && matchesMember;
+  });
+
+  const sortedTasks = sortTasks(
+    filteredTasks,
+    sortSelect?.value ?? "deadline-desc",
+  );
 
   const newTasks = sortedTasks.filter((task) => task.status === "new");
   const ongoingTasks = sortedTasks.filter((task) => task.status === "ongoing");

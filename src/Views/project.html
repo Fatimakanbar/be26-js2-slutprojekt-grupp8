@@ -15,14 +15,20 @@
     <h2>Projektmedlemmar</h2>
     <div id="projectMembers"></div>
 
-   
     <div id="taskFormContainer"></div>
     <button id="addTaskBtn">Lägg till uppgift</button>
-     <label for="filterTasksByCategory">Filtrera:</label>
+
+    <label for="filterTasksByCategory">Sortera efter kategori:</label>
     <select id="filterTasksByCategory">
-      <option value="deadline-desc">UX</option>
-      <option value="deadline-asc">Frontend</option>
-      <option value="deadline-xx">Backend</option>
+      <option value="all">Alla kategorier</option>
+      <option value="frontend">Frontend</option>
+      <option value="backend">Backend</option>
+      <option value="ux">UX</option>
+    </select>
+    
+    <label for="filterTasksByMember">Filtrera medlem:</label>
+    <select id="filterTasksByMember">
+      <option value="all">Alla medlemmar</option>
     </select>
 
     <label for="sortTasks">Sortera:</label>
