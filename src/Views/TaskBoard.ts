@@ -12,6 +12,10 @@ import { createTaskForm } from "./forms/taskForm";
 import { postTask } from "../database/TaskFirebaseRequest";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
 
+function showError(message: string): void {
+  alert(message);
+}
+
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
 
@@ -62,16 +66,21 @@ memberFilter?.addEventListener("change", async () => {
 });
 
 async function loadMemberFilter() {
-  const members = await fetchMembers();
+  try {
+    const members = await fetchMembers();
 
-  if (!memberFilter) return;
+    if (!memberFilter) return;
 
-  members.forEach((member) => {
-    const option = document.createElement("option");
-    option.value = member.id;
-    option.textContent = member.name;
-    memberFilter.append(option);
-  });
+    members.forEach((member) => {
+      const option = document.createElement("option");
+      option.value = member.id;
+      option.textContent = member.name;
+      memberFilter.append(option);
+    });
+  } catch (error) {
+    console.error("Kunde inte ladda medlemmar:", error);
+    showError("Det gick inte att ladda medlemmar. Försök igen senare.");
+  }
 }
 
 await loadMemberFilter();
@@ -99,14 +108,18 @@ async function submitForm(event: SubmitEvent) {
     values.member as string,
   );
 
-  form.remove();
+  try {
+    await postTask(task);
+    form.remove();
+    if (addTaskBtn) {
+      addTaskBtn.hidden = false;
+    }
 
-  await postTask(task);
-
-  if (addTaskBtn) {
-    addTaskBtn.hidden = false;
+    await loadTasks();
+  } catch (error) {
+    console.error("Kunde inte spara uppgiften:", error);
+    showError("Det gick inte att spara uppgiften. Försök igen senare.");
   }
-  await loadTasks();
 }
 
 export async function renderTask(
@@ -145,8 +158,12 @@ export async function renderTask(
 
   deadline.addEventListener("change", async () => {
     if (!task.id) return;
-
-    await patchDeadline(task.id, deadline.value);
+    try {
+      await patchDeadline(task.id, deadline.value);
+    } catch (error) {
+      console.error("Kunde inte uppdatera deadline:", error);
+      showError("Det gick inte att uppdatera deadline. Försök igen senare.");
+    }
   });
 
   const priorityLabel = document.createElement("label");
@@ -171,8 +188,12 @@ export async function renderTask(
 
   priority.addEventListener("change", async () => {
     if (!task.id) return;
-
-    await patchPriority(task.id, Number(priority.value) as Priority);
+    try {
+      await patchPriority(task.id, Number(priority.value) as Priority);
+    } catch (error) {
+      console.error("Kunde inte uppdatera prioritet:", error);
+      showError("Det gick inte att spara prioriteten. Försök igen senare.");
+    }
   });
 
   const memberContainer = document.createElement("div");
@@ -224,8 +245,13 @@ export async function renderTask(
     memberSelect.addEventListener("change", async () => {
       if (!task.id || !memberSelect.value) return;
 
-      await patchAssignment(task.id, memberSelect.value);
-      await loadTasks();
+      try {
+        await patchAssignment(task.id, memberSelect.value);
+        await loadTasks();
+      } catch (error) {
+        console.error("Kunde inte tilldela medlem:", error);
+        showError("Det gick inte att tilldela medlem. Försök igen senare.");
+      }
     });
   }
 
@@ -253,9 +279,15 @@ export async function renderTask(
 
     doneTaskBtn.addEventListener("click", async () => {
       if (!task.id) return;
-
-      await patchTaskStatus(task.id, "finished");
-      await loadTasks();
+      try {
+        await patchTaskStatus(task.id, "finished");
+        await loadTasks();
+      } catch (error) {
+        console.error("Kunde inte avsluta uppgiften:", error);
+        showError(
+          "Det gick inte att markera uppgiften som klar. Försök igen senare.",
+        );
+      }
     });
   }
 
@@ -269,9 +301,13 @@ export async function renderTask(
     const confirmed = confirm("Vill du verkligen ta bort uppgiften?");
 
     if (!confirmed) return;
-
-    await deleteTask(task.id);
-    await loadTasks();
+    try {
+      await deleteTask(task.id);
+      await loadTasks();
+    } catch (error) {
+      console.error("Kunde inte ta bort uppgiften:", error);
+      showError("Det gick inte att ta bort uppgiften. Försök igen senare.");
+    }
   });
 
   return taskCard;
@@ -304,76 +340,85 @@ export async function loadTasks() {
     return;
   }
 
-  const tasks = await getTaskForProject(projectId);
-  const members = await fetchMembers();
+  try {
+    const tasks = await getTaskForProject(projectId);
+    const members = await fetchMembers();
 
-  const categoryFilter = document.querySelector<HTMLSelectElement>(
-    "#filterTasksByCategory",
-  );
-
-  const memberFilter = document.querySelector<HTMLSelectElement>(
-    "#filterTasksByMember",
-  );
-
-  const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
-
-  const selectedCategory = categoryFilter?.value ?? "all";
-  const selectedMember = memberFilter?.value ?? "all";
-
-  const filteredTasks = tasks.filter((task) => {
-    const matchesCategory =
-      selectedCategory === "all" || task.category === selectedCategory;
-
-    const matchesMember =
-      selectedMember === "all" || task.assignedMemberId === selectedMember;
-
-    return matchesCategory && matchesMember;
-  });
-
-  const sortedTasks = sortTasks(
-    filteredTasks,
-    sortSelect?.value ?? "deadline-desc",
-  );
-
-  const newTasks = sortedTasks.filter((task) => task.status === "new");
-  const ongoingTasks = sortedTasks.filter((task) => task.status === "ongoing");
-  const finishedTasks = sortedTasks.filter(
-    (task) => task.status === "finished",
-  );
-
-  const newTaskContainer = document.querySelector("#newTasksContainer");
-  //empty newTaskContainer
-  newTaskContainer?.replaceChildren();
-
-  newTasks.forEach(async (task) => {
-    const taskCard = await renderTask(
-      task,
-      members.filter((member) => member.category === task.category),
+    const categoryFilter = document.querySelector<HTMLSelectElement>(
+      "#filterTasksByCategory",
     );
-    newTaskContainer?.append(taskCard);
-  });
 
-  const ongoingTaskContainer = document.querySelector("#ongoingTasksContainer");
-  //empty ongoingTaskContainer
-  ongoingTaskContainer?.replaceChildren();
-
-  ongoingTasks.forEach(async (task) => {
-    const taskCard = await renderTask(
-      task,
-      members.filter((member) => member.category === task.category),
+    const memberFilter = document.querySelector<HTMLSelectElement>(
+      "#filterTasksByMember",
     );
-    ongoingTaskContainer?.append(taskCard);
-  });
 
-  const doneTaskContainer = document.querySelector("#doneTasksContainer");
-  //empty doneTaskContainer
-  doneTaskContainer?.replaceChildren();
+    const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
 
-  finishedTasks.forEach(async (task) => {
-    const taskCard = await renderTask(
-      task,
-      members.filter((member) => member.category === task.category),
+    const selectedCategory = categoryFilter?.value ?? "all";
+    const selectedMember = memberFilter?.value ?? "all";
+
+    const filteredTasks = tasks.filter((task) => {
+      const matchesCategory =
+        selectedCategory === "all" || task.category === selectedCategory;
+
+      const matchesMember =
+        selectedMember === "all" || task.assignedMemberId === selectedMember;
+
+      return matchesCategory && matchesMember;
+    });
+
+    const sortedTasks = sortTasks(
+      filteredTasks,
+      sortSelect?.value ?? "deadline-desc",
     );
-    doneTaskContainer?.append(taskCard);
-  });
+
+    const newTasks = sortedTasks.filter((task) => task.status === "new");
+    const ongoingTasks = sortedTasks.filter(
+      (task) => task.status === "ongoing",
+    );
+    const finishedTasks = sortedTasks.filter(
+      (task) => task.status === "finished",
+    );
+
+    const newTaskContainer = document.querySelector("#newTasksContainer");
+    //empty newTaskContainer
+    newTaskContainer?.replaceChildren();
+
+    newTasks.forEach(async (task) => {
+      const taskCard = await renderTask(
+        task,
+        members.filter((member) => member.category === task.category),
+      );
+      newTaskContainer?.append(taskCard);
+    });
+
+    const ongoingTaskContainer = document.querySelector(
+      "#ongoingTasksContainer",
+    );
+    //empty ongoingTaskContainer
+    ongoingTaskContainer?.replaceChildren();
+
+    ongoingTasks.forEach(async (task) => {
+      const taskCard = await renderTask(
+        task,
+        members.filter((member) => member.category === task.category),
+      );
+      ongoingTaskContainer?.append(taskCard);
+    });
+
+    const doneTaskContainer = document.querySelector("#doneTasksContainer");
+    //empty doneTaskContainer
+    doneTaskContainer?.replaceChildren();
+
+    finishedTasks.forEach(async (task) => {
+      const taskCard = await renderTask(
+        task,
+        members.filter((member) => member.category === task.category),
+      );
+      doneTaskContainer?.append(taskCard);
+    });
+  } catch (error) {
+    console.error("Kunde inte ladda uppgifter:", error);
+    showError("Det gick inte att ladda uppgifter. Försök igen senare.");
+  }
 }
