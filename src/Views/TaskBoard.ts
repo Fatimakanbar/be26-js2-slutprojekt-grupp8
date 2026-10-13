@@ -170,13 +170,13 @@ export async function renderTask(
 
   const memberContainer = document.createElement("div");
 
-  if (task.assignedMemberID) {
+  if (task.assignedMemberId) {
     const label = document.createElement("label");
     label.textContent = "Tilldelad medlem: ";
 
     const memberName = document.createElement("p");
     memberName.textContent = members.find(
-      (member) => member.id === task.assignedMemberID,
+      (member) => member.id === task.assignedMemberId,
     )?.name as string;
     memberContainer.append(label, memberName);
   } else {
@@ -196,7 +196,7 @@ export async function renderTask(
       option.value = member.id ?? "";
       option.textContent = member.name;
 
-      if (member.id === task.assignedMemberID) {
+      if (member.id === task.assignedMemberId) {
         option.selected = true;
       }
 
@@ -325,7 +325,7 @@ export async function loadTasks() {
       selectedCategory === "all" || task.category === selectedCategory;
 
     const matchesMember =
-      selectedMember === "all" || task.assignedMemberID === selectedMember;
+      selectedMember === "all" || task.assignedMemberId === selectedMember;
 
     return matchesCategory && matchesMember;
   });
