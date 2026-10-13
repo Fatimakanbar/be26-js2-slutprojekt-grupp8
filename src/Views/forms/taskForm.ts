@@ -1,3 +1,5 @@
+import {type Priority } from "../../models/Task";
+
 export function createTaskForm(): HTMLFormElement {
   const form = document.createElement("form");
   form.id = "taskForm";
@@ -36,26 +38,14 @@ export function createTaskForm(): HTMLFormElement {
 
   const prioritySelect = document.createElement("select");
   prioritySelect.name = "priority";
+  const priorities: Priority[] = [1, 2, 3];
 
-  //make array for priority and do a loop
-
-  const priorityOptionOne = document.createElement("option");
-  priorityOptionOne.value = "1";
-  priorityOptionOne.textContent = "1";
-
-  const priorityOptionTwo = document.createElement("option");
-  priorityOptionTwo.value = "2";
-  priorityOptionTwo.textContent = "2";
-
-  const priorityOptionThree = document.createElement("option");
-  priorityOptionThree.value = "3";
-  priorityOptionThree.textContent = "3";
-
-  prioritySelect.append(
-    priorityOptionOne,
-    priorityOptionTwo,
-    priorityOptionThree,
-  );
+  priorities.forEach((priority) => {
+    const priorityOption = document.createElement("option");
+    priorityOption.value = priority.toString();
+    priorityOption.textContent = priority.toString();
+    prioritySelect.append(priorityOption);
+  });
 
   const deadlineLabel = document.createElement("label");
   deadlineLabel.textContent = "Deadline";

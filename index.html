@@ -20,7 +20,11 @@
 
     <div id="app"></div>
 
-    <h2>Lägg till medlem</h2>
+  <h2>Lägg till medlem</h2>
+  <button id="addMemberBtn">Lägg till medlem</button>
+
+
+  <div id="memberFormContainer" hidden>
     <form id="MemberForm">
       <input id="nameInput" type="text" placeholder="Name" required />
       <select id="memberCategory" required>
@@ -29,11 +33,14 @@
         <option value="backend">backend</option>
         <option value="ux">ux</option>
       </select>
-      <button type="submit">Lägg till</button>
+      <button type="submit">Spara</button>
+      <button type="button" id="cancelMemberBtn">Avbryt</button>
     </form>
-    <p id="member-error" style="color: red"></p>
+  </div>
+  <p id="member-error" style="color: red"></p>
 
-    <h2>Nya medlemmar</h2>
-    <ul id="member-list"></ul>
-  </body>
+  <h2>Nya medlemmar</h2>
+  <ul id="member-list"></ul>
+</body>
+
 </html>

@@ -85,7 +85,7 @@ export class Task {
     return this._createdDate;
   }
 
-  get assignedMemberID(): string | undefined {
+  get assignedMemberId(): string | undefined {
     return this._assignedMemberId;
   }
 
@@ -93,7 +93,7 @@ export class Task {
     return this._finishedDate;
   }
 
-  get projectId() : string {
+  get projectId(): string {
     return this._projectId;
   }
 }
