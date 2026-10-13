@@ -31,7 +31,7 @@ export async function postTask(task: Task): Promise<Response> {
   const response = await fetch(urlBuilder("Tasks"), options);
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(`Kunde inte spara uppgiften i databasen. HTTP-status: ${response.status}`);
   }
 
   return response;
@@ -41,9 +41,10 @@ export async function getAllTasks(): Promise<Task[]> {
   const response = await fetch(urlBuilder("Tasks"));
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(
+      `Kunde inte hämta uppgifter från databasen. Statuskod: ${response.status}`,
+    );
   }
-
   const data = (await response.json()) as FirebaseTaskResponse;
 
   if (!data) {
@@ -88,15 +89,15 @@ export async function patchDeadline(
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(`Kunde inte uppdatera uppgiftens deadline. HTTP-status: ${response.status}`, );  
   }
 
   return response;
-}
+}   
 
 export async function patchPriority(
   taskId: string,
-  priority: Priority,
+  priority: Priority,  
 ): Promise<Response> {
   const options = {
     method: "PATCH",
@@ -109,7 +110,7 @@ export async function patchPriority(
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(`Kunde inte uppdatera uppgiftens prioritet. HTTP-status: ${response.status}`);
   }
 
   return response;
