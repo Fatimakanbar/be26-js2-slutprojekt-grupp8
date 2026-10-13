@@ -15,7 +15,14 @@
     <h2>Projektmedlemmar</h2>
     <div id="projectMembers"></div>
 
-    <label for="sortTasks">Filtrera:</label>
+    <label for="filterTasksByCategory">Filtrera:</label>
+    <select id="filterTasksByCategory">
+      <option value="deadline-desc">UX</option>
+      <option value="deadline-asc">Frontend</option>
+      <option value="deadline-xx">Backend</option>
+    </select>
+    
+    <label for="sortTasks">Sortera:</label>
     <select id="sortTasks">
       <option value="deadline-desc">Deadline ↓</option>
       <option value="deadline-asc">Deadline ↑</option>

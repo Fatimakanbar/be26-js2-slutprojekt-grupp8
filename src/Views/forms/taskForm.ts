@@ -65,12 +65,6 @@ export function createTaskForm(): HTMLFormElement {
   deadlineInput.required = true;
   deadlineInput.name = "deadline";
 
-  const memberLabel = document.createElement("label");
-  memberLabel.textContent = "Tilldelad member";
-
-  const memberSelect = document.createElement("select");
-  memberSelect.name = "member";
-
   const submitButton = document.createElement("button");
   submitButton.type = "submit";
   submitButton.textContent = "Spara";
@@ -91,8 +85,6 @@ export function createTaskForm(): HTMLFormElement {
     prioritySelect,
     deadlineLabel,
     deadlineInput,
-    memberLabel,
-    memberSelect,
     submitButton,
     cancelButton,
   );
