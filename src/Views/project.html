@@ -18,26 +18,29 @@
     <div id="taskFormContainer"></div>
     <button id="addTaskBtn">Lägg till uppgift</button>
 
-    <label for="filterTasksByCategory">Sortera efter kategori:</label>
-    <select id="filterTasksByCategory">
-      <option value="all">Alla kategorier</option>
-      <option value="frontend">Frontend</option>
-      <option value="backend">Backend</option>
-      <option value="ux">UX</option>
-    </select>
-    
-    <label for="filterTasksByMember">Filtrera medlem:</label>
-    <select id="filterTasksByMember">
-      <option value="all">Alla medlemmar</option>
-    </select>
+    <div id="taskfilter">
+      <label for="filterTasksByCategory">Sortera efter kategori:</label>
+      <select id="filterTasksByCategory">
+        <option value="all">Alla kategorier</option>
+        <option value="frontend">Frontend</option>
+        <option value="backend">Backend</option>
+        <option value="ux">UX</option>
+      </select>
 
-    <label for="sortTasks">Sortera:</label>
-    <select id="sortTasks">
-      <option value="deadline-desc">Deadline ↓</option>
-      <option value="deadline-asc">Deadline ↑</option>
-      <option value="title-asc">Titel A → Ö</option>
-      <option value="title-desc">Titel Ö → A</option>
-    </select>
+      <label for="filterTasksByMember">Filtrera medlem:</label>
+      <select id="filterTasksByMember">
+        <option value="all">Alla medlemmar</option>
+      </select>
+
+      <label for="sortTasks">Sortera:</label>
+      <select id="sortTasks">
+        <option value="deadline-desc">Deadline ↓</option>
+        <option value="deadline-asc">Deadline ↑</option>
+        <option value="title-asc">Titel A → Ö</option>
+        <option value="title-desc">Titel Ö → A</option>
+      </select>
+    </div>
+    
     <div id="taskBoard">
       <section class="task-column">
         <h2>Nya uppgifter</h2>
