@@ -140,11 +140,10 @@ export async function patchTaskStatus(
   taskId: string,
   status: Status,
 ): Promise<Response> {
-  
-  let body : { _status: Status; _finishedDate?: string } = { _status: status };
+  let body: { _status: Status; _finishedDate?: string } = { _status: status };
 
   if (status === "finished") {
-    body._finishedDate = new Date().toISOString().split("T")[0]
+    body._finishedDate = new Date().toISOString();
   }
 
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), {

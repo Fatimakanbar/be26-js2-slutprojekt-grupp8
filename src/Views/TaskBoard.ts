@@ -229,6 +229,22 @@ export async function renderTask(
     memberContainer,
   );
 
+  if (task.status === "finished" && task.finishedDate) {
+    const finishedDate = document.createElement("p");
+
+    finishedDate.textContent = `Avslutad: ${new Date(
+      task.finishedDate,
+    ).toLocaleString("sv-SE", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+
+    taskCard.append(finishedDate);
+  }
+
   if (task.status === "ongoing") {
     const doneTaskBtn = document.createElement("button");
     doneTaskBtn.textContent = "Klar";
