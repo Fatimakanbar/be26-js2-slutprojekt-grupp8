@@ -31,7 +31,9 @@ export async function postTask(task: Task): Promise<Response> {
   const response = await fetch(urlBuilder("Tasks"), options);
 
   if (!response.ok) {
-    throw new Error(`Kunde inte spara uppgiften i databasen. HTTP-status: ${response.status}`);
+    throw new Error(
+      `Kunde inte spara uppgiften i databasen. HTTP-status: ${response.status}`,
+    );
   }
 
   return response;
@@ -89,15 +91,17 @@ export async function patchDeadline(
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error(`Kunde inte uppdatera uppgiftens deadline. HTTP-status: ${response.status}`, );  
+    throw new Error(
+      `Kunde inte uppdatera uppgiftens deadline. HTTP-status: ${response.status}`,
+    );
   }
 
   return response;
-}   
+}
 
 export async function patchPriority(
   taskId: string,
-  priority: Priority,  
+  priority: Priority,
 ): Promise<Response> {
   const options = {
     method: "PATCH",
@@ -110,7 +114,9 @@ export async function patchPriority(
   const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error(`Kunde inte uppdatera uppgiftens prioritet. HTTP-status: ${response.status}`);
+    throw new Error(
+      `Kunde inte uppdatera uppgiftens prioritet. HTTP-status: ${response.status}`,
+    );
   }
 
   return response;
@@ -120,7 +126,7 @@ export async function patchAssignment(
   taskId: string,
   memberId: string,
 ): Promise<Response> {
-  const response = await fetch(urlBuilder(`Tasks/${taskId}`), {
+  const options = {
     method: "PATCH",
     body: JSON.stringify({
       _assignedMemberId: memberId,
@@ -129,10 +135,14 @@ export async function patchAssignment(
     headers: {
       "Content-type": "application/json",
     },
-  });
+  };
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(
+      `Kunde inte tilldela uppgiften till medlemmen. HTTP-status: ${response.status}`,
+    );
   }
   return response;
 }
@@ -147,27 +157,36 @@ export async function patchTaskStatus(
     body._finishedDate = new Date().toISOString();
   }
 
-  const response = await fetch(urlBuilder(`Tasks/${taskId}`), {
+  const options = {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  };
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
 
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(
+      `Kunde inte uppdatera uppgiftens status. HTTP-status: ${response.status}`,
+    );
   }
 
   return response;
 }
 
 export async function deleteTask(taskId: string): Promise<Response> {
-  const response = await fetch(urlBuilder(`Tasks/${taskId}`), {
+  const options = {
     method: "DELETE",
-  });
+  };
+
+  const response = await fetch(urlBuilder(`Tasks/${taskId}`), options);
+
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    throw new Error(
+      `Kunde inte ta bort uppgiften. HTTP-status: ${response.status}`,
+    );
   }
 
   return response;
