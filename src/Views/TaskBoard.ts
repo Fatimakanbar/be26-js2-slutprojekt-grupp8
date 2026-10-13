@@ -71,6 +71,10 @@ async function submitForm(event: SubmitEvent) {
   form.remove();
 
   await postTask(task);
+
+  if (addTaskBtn) {
+    addTaskBtn.hidden = false;
+  }
   await loadTasks();
 }
 
@@ -193,13 +197,13 @@ export async function renderTask(
     priorityLabel,
     memberContainer,
   );
-  
-   if (task.status === "ongoing") {
+
+  if (task.status === "ongoing") {
     const doneTaskBtn = document.createElement("button");
     doneTaskBtn.textContent = "Klar";
 
     taskCard.append(doneTaskBtn);
-    
+
     doneTaskBtn.addEventListener("click", async () => {
       if (!task.id) return;
 
@@ -212,8 +216,6 @@ export async function renderTask(
   deleteTaskBtn.textContent = "Ta bort uppgift";
   taskCard.append(deleteTaskBtn);
 
- 
-  
   deleteTaskBtn.addEventListener("click", async () => {
     if (!task.id) return;
 
@@ -224,7 +226,6 @@ export async function renderTask(
     await deleteTask(task.id);
     await loadTasks();
   });
-
 
   return taskCard;
 }
