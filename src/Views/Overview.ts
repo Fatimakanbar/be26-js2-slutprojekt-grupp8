@@ -50,8 +50,7 @@ async function amountOfOngoingProjects(project: Project) {
 
     const ongoingTasksCount = tasks.filter(
       (task: Task) =>
-        task.status === "ongoing" &&
-        (project.taskIDs?.includes(task.id ?? "") ?? false),
+        task.status === "ongoing" && task.projectId === project.id,
     ).length;
     return ongoingTasksCount;
   } catch (error) {
