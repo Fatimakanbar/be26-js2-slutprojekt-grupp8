@@ -68,7 +68,7 @@ async function loadMemberFilter() {
 
   members.forEach((member) => {
     const option = document.createElement("option");
-    option.value = member.id ?? "";
+    option.value = member.id;
     option.textContent = member.name;
     memberFilter.append(option);
   });
@@ -119,15 +119,19 @@ export async function renderTask(
 
   const title = document.createElement("h3");
   title.textContent = task.name;
+  taskCard.append(title);
 
   const description = document.createElement("p");
   description.textContent = task.description;
+  taskCard.append(description);
 
   const category = document.createElement("p");
   category.textContent = `Kategori: ${task.category}`;
+  taskCard.append(category);
 
   const createdDate = document.createElement("p");
   createdDate.textContent = `Skapad: ${task.createdDate}`;
+  taskCard.append(createdDate);
 
   const deadlineLabel = document.createElement("label");
   deadlineLabel.textContent = "Deadline:";
@@ -137,6 +141,7 @@ export async function renderTask(
   deadline.value = task.deadline;
 
   deadlineLabel.append(deadline);
+  taskCard.append(deadlineLabel);
 
   deadline.addEventListener("change", async () => {
     if (!task.id) return;
@@ -162,6 +167,8 @@ export async function renderTask(
   }
 
   priorityLabel.append(priority);
+  taskCard.append(priorityLabel);
+
   priority.addEventListener("change", async () => {
     if (!task.id) return;
 
@@ -169,15 +176,21 @@ export async function renderTask(
   });
 
   const memberContainer = document.createElement("div");
+  taskCard.append(memberContainer);
 
   if (task.assignedMemberId) {
     const label = document.createElement("label");
     label.textContent = "Tilldelad medlem: ";
 
     const memberName = document.createElement("p");
-    memberName.textContent = members.find(
+    const assignedMember = members.find(
       (member) => member.id === task.assignedMemberId,
-    )?.name as string;
+    );
+    if (assignedMember) {
+      memberName.textContent = assignedMember.name;
+    } else {
+      memberName.textContent = "Medlemmen hittades inte";
+    }
     memberContainer.append(label, memberName);
   } else {
     const memberLabel = document.createElement("label");
@@ -193,9 +206,11 @@ export async function renderTask(
     members.forEach((member) => {
       const option = document.createElement("option");
 
+      //ta bort ?? "" då vi kommer alltid ha ett id för medlemmar
       option.value = member.id ?? "";
       option.textContent = member.name;
 
+      //ta bort?
       if (member.id === task.assignedMemberId) {
         option.selected = true;
       }
@@ -208,26 +223,11 @@ export async function renderTask(
 
     memberSelect.addEventListener("change", async () => {
       if (!task.id || !memberSelect.value) return;
-      //taskInteraction:
-      // addMemberToTask (task, member)
-      // task.memberId = member.Id
-      // task.status = "ongoing"
-      // await patchAssignment(task.id, memberSelect.value);
 
       await patchAssignment(task.id, memberSelect.value);
       await loadTasks();
     });
   }
-
-  taskCard.append(
-    title,
-    description,
-    category,
-    createdDate,
-    deadlineLabel,
-    priorityLabel,
-    memberContainer,
-  );
 
   if (task.status === "finished" && task.finishedDate) {
     const finishedDate = document.createElement("p");
