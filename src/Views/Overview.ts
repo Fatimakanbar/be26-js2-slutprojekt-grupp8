@@ -8,9 +8,16 @@ const projectContainer = document.querySelector(
   "#projectContainer",
 ) as HTMLDivElement;
 
-async function displayProjects() {
+export async function displayProjects() {
+  const overviewError = document.querySelector("#projectOverviewError");
+
+  if (overviewError) {
+    overviewError.textContent = "";
+  }
+
   try {
     const projects = await getProjects();
+    projectContainer.innerHTML = "";
 
     for (const project of projects) {
       const projectElement = document.createElement("div");
@@ -24,7 +31,6 @@ async function displayProjects() {
         <p>Pågående uppgifter: ${ongoingTasksCount}</p>
       `;
       projectElement.addEventListener("click", () => {
-        console.log("Clicked project:", project.name);
         window.location.href = `/src/Views/project.html?id=${project.id}`;
       });
 
@@ -34,14 +40,13 @@ async function displayProjects() {
     return projects;
   } catch (error) {
     console.log("Error fetching projects:", error);
+    throw error;
   }
 }
 
 async function amountOfOngoingProjects(project: Project) {
   try {
     const tasks = await getAllTasks();
-    console.log("Alla tasks:", tasks);
-    console.log("Projektets taskIDs:", project.taskIDs);
 
     const ongoingTasksCount = tasks.filter(
       (task: Task) =>
@@ -55,4 +60,13 @@ async function amountOfOngoingProjects(project: Project) {
   }
 }
 
-displayProjects();
+displayProjects().catch((error) => {
+  console.error("Kunde inte ladda projektöversikten:", error);
+
+  const overviewError = document.querySelector("#projectOverviewError");
+
+  if (overviewError) {
+    overviewError.textContent =
+      "Det gick inte att ladda projekten. Kontrollera din anslutning och ladda om sidan.";
+  }
+});

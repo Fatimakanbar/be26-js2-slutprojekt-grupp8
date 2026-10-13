@@ -1,6 +1,7 @@
 import { CreateProject } from "../../database/ProjectFirebaseRequest";
 import { Project } from "../../models/Projects";
 import { fetchMembers } from "../../database/MemberFirebaseRequest";
+import { displayProjects } from "../Overview";
 const addProjectBtn = document.querySelector(
   "#addProjectBtn",
 ) as HTMLButtonElement;
@@ -100,8 +101,12 @@ addProjectBtn.addEventListener("click", () => {
   const overlay = document.createElement("div") as HTMLDivElement;
   overlay.id = "formOverlay";
 
+  const errorMessage = document.createElement("p") as HTMLParagraphElement;
+  errorMessage.id = "projectErrorMessage";
+
   projectForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    errorMessage.textContent = "";
     const projectName = projectNameInput.value.trim();
     const projectDescription = projectDescriptionInput.value.trim();
     const projectDeadline = dateInput.value;
@@ -123,7 +128,6 @@ addProjectBtn.addEventListener("click", () => {
       }
     }
 
-    console.log("Valda medlems-ID:n:", selectedMembersIDs);
     const newProject = new Project(
       projectName,
       projectDescription,
@@ -131,10 +135,31 @@ addProjectBtn.addEventListener("click", () => {
       selectedMembersIDs,
       [],
     );
-    await CreateProject(newProject);
-    overlay.remove();
-  });
+    try {
+      await CreateProject(newProject);
+      overlay.remove();
+    } catch (error) {
+      console.error("Kunde inte skapa projekt:", error);
+      errorMessage.textContent =
+        "Det gick inte att skapa projektet. Försök igen!";
+      return;
+    }
 
+    try {
+      await displayProjects();
+    } catch (error) {
+      console.error("Kunde inte uppdatera projektöversikten:", error);
+
+      const overviewError = document.querySelector<HTMLParagraphElement>(
+        "#projectOverviewError",
+      );
+
+      if (overviewError) {
+        overviewError.textContent =
+          "Projektet skapades, men översikten kunde inte uppdateras. Ladda om sidan.";
+      }
+    }
+  });
   projectForm.append(
     projectFormHeader,
     closeButton,
@@ -146,6 +171,7 @@ addProjectBtn.addEventListener("click", () => {
     dateInput,
     memberDropdown,
     submitButton,
+    errorMessage,
   );
 
   overlay.appendChild(projectForm);
