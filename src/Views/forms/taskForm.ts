@@ -1,4 +1,4 @@
-import {type Priority } from "../../models/Task";
+import { type Priority } from "../../models/Task";
 
 export function createTaskForm(): HTMLFormElement {
   const form = document.createElement("form");
@@ -6,7 +6,7 @@ export function createTaskForm(): HTMLFormElement {
 
   const nameLabel = document.createElement("label");
   nameLabel.textContent = "Titel";
-  nameLabel.htmlFor = "taskName";   
+  nameLabel.htmlFor = "taskName";
 
   const nameInput = document.createElement("input");
   nameInput.type = "text";
