@@ -1,13 +1,10 @@
 import { Task, type Priority } from "../models/Task";
-import {
-  postTask,
-  getTaskForProject,
-} from "../database/taskFirebaseRequest";
+import { postTask, getTaskForProject } from "../database/taskFirebaseRequest";
 import type { Category } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
 import { getFilteredSortedTasks } from "./taskSorter";
-import { renderTask } from "./renderTask";
+import { createTaskCard } from "./renderTask";
 
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
@@ -30,12 +27,29 @@ const memberFilterElement = document.querySelector<HTMLSelectElement>(
 );
 
 const tasks = await getTaskForProject(projectId);
+
 const members = await fetchMembers();
 
-await loadTasks();
+await displayTaskBoard();
 
 //break to function (same way as submitForm)
-addTaskBtn?.addEventListener("click", () => {
+addTaskBtn?.addEventListener("click", showTaskForm);
+
+taskSortingSelect?.addEventListener("change", async () => {
+  await displayTaskBoard();
+});
+
+categoryFilterElement?.addEventListener("change", async () => {
+  await displayTaskBoard();
+});
+
+memberFilterElement?.addEventListener("change", async () => {
+  await displayTaskBoard();
+});
+
+function showTaskForm(event: PointerEvent): void {
+  event.preventDefault();
+  const addTaskBtn = event.currentTarget as HTMLButtonElement;
   addTaskBtn.hidden = true;
 
   const taskForm = createTaskForm();
@@ -54,19 +68,7 @@ addTaskBtn?.addEventListener("click", () => {
 
   const taskFormContainer = document.querySelector("#taskFormContainer");
   taskFormContainer?.append(taskForm);
-});
-
-taskSortingSelect?.addEventListener("change", async () => {
-  await loadTasks();
-});
-
-categoryFilterElement?.addEventListener("change", async () => {
-  await loadTasks();
-});
-
-memberFilterElement?.addEventListener("change", async () => {
-  await loadTasks();
-});
+}
 
 async function loadMemberFilter() {
   try {
@@ -118,14 +120,14 @@ async function submitForm(event: SubmitEvent) {
       addTaskBtn.hidden = false;
     }
 
-    await loadTasks();
+    await displayTaskBoard();
   } catch (error) {
     console.error("Kunde inte spara uppgiften:", error);
     alert("Det gick inte att spara uppgiften. Försök igen senare.");
   }
 }
 
-export async function loadTasks() {
+export async function displayTaskBoard(): Promise<void> {
   try {
     const filterByCategoryValue = categoryFilterElement?.value ?? "all";
     const filterByMemberValue = memberFilterElement?.value ?? "all";
@@ -150,7 +152,7 @@ export async function loadTasks() {
     newTaskContainer?.replaceChildren();
 
     newTasks.forEach(async (task) => {
-      const taskCard = await renderTask(
+      const taskCard = await createTaskCard(
         task,
         members.filter((member) => member.category === task.category),
       );
@@ -164,7 +166,7 @@ export async function loadTasks() {
     ongoingTaskContainer?.replaceChildren();
 
     ongoingTasks.forEach(async (task) => {
-      const taskCard = await renderTask(
+      const taskCard = await createTaskCard(
         task,
         members.filter((member) => member.category === task.category),
       );
@@ -176,7 +178,7 @@ export async function loadTasks() {
     doneTaskContainer?.replaceChildren();
 
     finishedTasks.forEach(async (task) => {
-      const taskCard = await renderTask(
+      const taskCard = await createTaskCard(
         task,
         members.filter((member) => member.category === task.category),
       );
