@@ -11,6 +11,11 @@ import {
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
+import {
+  filterCategory,
+  filterMember,
+  sortTasks,
+} from "./getFilteredAndSortedTasks";
 
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
@@ -314,27 +319,6 @@ export async function renderTask(
   return taskCard;
 }
 
-function sortTasks(tasks: Task[], sortBy: string): Task[] {
-  return tasks.sort((a, b) => {
-    if (sortBy === "deadline-asc") {
-      return a.deadline.localeCompare(b.deadline);
-    }
-
-    if (sortBy === "deadline-desc") {
-      return b.deadline.localeCompare(a.deadline);
-    }
-
-    if (sortBy === "title-asc") {
-      return a.name.localeCompare(b.name);
-    }
-
-    if (sortBy === "title-desc") {
-      return b.name.localeCompare(a.name);
-    }
-
-    return 0;
-  });
-}
 
 export async function loadTasks() {
   if (!projectId) {
@@ -344,30 +328,13 @@ export async function loadTasks() {
   try {
     const tasks = await getTaskForProject(projectId);
     const members = await fetchMembers();
-    /* upprepning av kod som finns ovan
-    const categoryFilter = document.querySelector<HTMLSelectElement>(
-      "#filterTasksByCategory",
-    );
-
-    const memberFilter = document.querySelector<HTMLSelectElement>(
-      "#filterTasksByMember",
-    );
-
-    const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
-    */
 
     const selectedCategory = categoryFilter?.value ?? "all";
     const selectedMember = memberFilter?.value ?? "all";
 
-    const filteredTasks = tasks.filter((task) => {
-      const matchesCategory =
-        selectedCategory === "all" || task.category === selectedCategory;
+    const categoryFilteredTasks = filterCategory(tasks, selectedCategory);
 
-      const matchesMember =
-        selectedMember === "all" || task.assignedMemberId === selectedMember;
-
-      return matchesCategory && matchesMember;
-    });
+    const filteredTasks = filterMember(categoryFilteredTasks, selectedMember);
 
     const sortedTasks = sortTasks(
       filteredTasks,
@@ -383,7 +350,7 @@ export async function loadTasks() {
     );
 
     const newTaskContainer = document.querySelector("#newTasksContainer");
-    //empty newTaskContainer
+   
     newTaskContainer?.replaceChildren();
 
     newTasks.forEach(async (task) => {
@@ -397,7 +364,7 @@ export async function loadTasks() {
     const ongoingTaskContainer = document.querySelector(
       "#ongoingTasksContainer",
     );
-    //empty ongoingTaskContainer
+  
     ongoingTaskContainer?.replaceChildren();
 
     ongoingTasks.forEach(async (task) => {
@@ -409,7 +376,7 @@ export async function loadTasks() {
     });
 
     const doneTaskContainer = document.querySelector("#doneTasksContainer");
-    //empty doneTaskContainer
+    
     doneTaskContainer?.replaceChildren();
 
     finishedTasks.forEach(async (task) => {
