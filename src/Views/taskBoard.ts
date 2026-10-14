@@ -49,7 +49,6 @@ function showTaskForm(event: PointerEvent): void {
     "#cancelTaskButton",
   ) as HTMLButtonElement;
 
-  //break to function (same way as submitForm)
   cancelButton.addEventListener("click", () => {
     taskForm.remove();
     addTaskBtn.hidden = false;
@@ -85,7 +84,7 @@ async function submitForm(event: SubmitEvent) {
   const taskForm = event.currentTarget as HTMLFormElement;
 
   if (!projectId) {
-    console.error("Project ID is not available");
+    console.error("Projekt-ID är inte tillgängligt");
     return;
   }
 
@@ -119,8 +118,8 @@ async function submitForm(event: SubmitEvent) {
 export async function reloadTaskBoard(): Promise<void> {
   try {
     if (!projectId) {
-      alert("Project ID is not available");
-      throw new Error("Project ID is not available");
+      alert("Projekt-ID är inte tillgängligt");
+      throw new Error("Projekt-ID är inte tillgängligt");
     }
 
     const tasks = await getTaskForProject(projectId);
