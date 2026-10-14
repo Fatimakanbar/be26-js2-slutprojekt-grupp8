@@ -1,7 +1,7 @@
 import { patchDeadline, patchPriority, patchAssignment, patchTaskStatus, deleteTask } from "../database/taskFirebaseRequest";
 import type { Member } from "../models/Member";
 import type { Task, Priority } from "../models/Task";
-import { displayTaskBoard } from "./TaskBoard";
+import { displayTaskBoard } from "./taskBoard";
 
 
 export async function createTaskCard(

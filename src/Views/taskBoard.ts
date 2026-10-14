@@ -9,11 +9,6 @@ import { createTaskCard } from "./renderTask";
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
 
-if (!projectId) {
-  alert("Project ID is not available");
-  throw new Error("Project ID is not available");
-}
-
 const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
 const taskSortingSelect =
   document.querySelector<HTMLSelectElement>("#sortTasks");
@@ -25,8 +20,6 @@ const categoryFilterElement = document.querySelector<HTMLSelectElement>(
 const memberFilterElement = document.querySelector<HTMLSelectElement>(
   "#filterTasksByMember",
 );
-
-const tasks = await getTaskForProject(projectId);
 
 const members = await fetchMembers();
 
@@ -129,6 +122,12 @@ async function submitForm(event: SubmitEvent) {
 
 export async function displayTaskBoard(): Promise<void> {
   try {
+    if (!projectId) {
+      alert("Project ID is not available");
+      throw new Error("Project ID is not available");
+    }
+
+    const tasks = await getTaskForProject(projectId);
     const filterByCategoryValue = categoryFilterElement?.value ?? "all";
     const filterByMemberValue = memberFilterElement?.value ?? "all";
     const taskSortOrder = taskSortingSelect?.value ?? "deadline-desc";
