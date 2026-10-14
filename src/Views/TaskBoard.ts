@@ -36,22 +36,22 @@ await loadTasks();
 addTaskBtn?.addEventListener("click", () => {
   addTaskBtn.hidden = true;
 
-  const form = createTaskForm();
+  const taskForm = createTaskForm();
 
-  form.addEventListener("submit", submitForm);
+  taskForm.addEventListener("submit", submitForm);
 
-  const cancelButton = form.querySelector(
+  const cancelButton = taskForm.querySelector(
     "#cancelTaskButton",
   ) as HTMLButtonElement;
 
   //break to function (same way as submitForm)
   cancelButton.addEventListener("click", () => {
-    form.remove();
+    taskForm.remove();
     addTaskBtn.hidden = false;
   });
 
   const taskFormContainer = document.querySelector("#taskFormContainer");
-  taskFormContainer?.append(form);
+  taskFormContainer?.append(taskForm);
 });
 
 sortSelect?.addEventListener("change", async () => {
@@ -89,29 +89,29 @@ await loadMemberFilter();
 async function submitForm(event: SubmitEvent) {
   event.preventDefault();
 
-  const form = event.currentTarget as HTMLFormElement;
+  const taskForm = event.currentTarget as HTMLFormElement;
 
   if (!projectId) {
     console.error("Project ID is not available");
     return;
   }
 
-  const formData = new FormData(form);
-  const values = Object.fromEntries(formData);
+  const taskFormData = new FormData(taskForm);
+  const taskFormValues = Object.fromEntries(taskFormData);
 
   const task = new Task(
-    values.name as string,
-    values.description as string,
-    values.category as Category,
-    Number(values.priority) as Priority,
-    values.deadline as string,
+    taskFormValues.name as string,
+    taskFormValues.description as string,
+    taskFormValues.category as Category,
+    Number(taskFormValues.priority) as Priority,
+    taskFormValues.deadline as string,
     projectId,
-    values.member as string,
+    taskFormValues.member as string,
   );
 
   try {
     await postTask(task);
-    form.remove();
+    taskForm.remove();
     if (addTaskBtn) {
       addTaskBtn.hidden = false;
     }
@@ -131,13 +131,13 @@ export async function renderTask(
 
   taskCard.classList.add("task-card");
 
-  const title = document.createElement("h3");
-  title.textContent = task.name;
-  taskCard.append(title);
+  const taskTitle = document.createElement("h3");
+  taskTitle.textContent = task.name;
+  taskCard.append(taskTitle);
 
-  const description = document.createElement("p");
-  description.textContent = task.description;
-  taskCard.append(description);
+  const taskDescription = document.createElement("p");
+  taskDescription.textContent = task.description;
+  taskCard.append(taskDescription);
 
   const category = document.createElement("p");
   category.textContent = `Kategori: ${task.category}`;
