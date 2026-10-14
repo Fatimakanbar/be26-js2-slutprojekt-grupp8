@@ -1,5 +1,5 @@
 import { getProjects } from "../database/ProjectFirebaseRequest";
-import { getAllTasks } from "../database/TaskFirebaseRequest";
+import { getAllTasks } from "../database/taskFirebaseRequest";
 import { Task } from "../models/Task";
 import { Project } from "../models/Projects";
 import type { Status } from "../models/Task";

@@ -1,27 +1,37 @@
 import { Task, type Priority } from "../models/Task";
 import {
+  postTask,
   getTaskForProject,
   patchDeadline,
   patchPriority,
   patchAssignment,
   patchTaskStatus,
   deleteTask,
-} from "../database/TaskFirebaseRequest";
+} from "../database/taskFirebaseRequest";
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
-import { postTask } from "../database/TaskFirebaseRequest";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
+
+const params = new URLSearchParams(window.location.search);
+const projectId = params.get("id");
+
+const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
+const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
+
+const categoryFilter = document.querySelector<HTMLSelectElement>(
+  "#filterTasksByCategory",
+);
+
+const memberFilter = document.querySelector<HTMLSelectElement>(
+  "#filterTasksByMember",
+);
 
 function showError(message: string): void {
   alert(message);
 }
 
-const params = new URLSearchParams(window.location.search);
-const projectId = params.get("id");
-
 await loadTasks();
 
-const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
 //break to function (same way as submitForm)
 addTaskBtn?.addEventListener("click", () => {
   addTaskBtn.hidden = true;
@@ -44,18 +54,9 @@ addTaskBtn?.addEventListener("click", () => {
   taskFormContainer?.append(form);
 });
 
-const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
 sortSelect?.addEventListener("change", async () => {
   await loadTasks();
 });
-
-const categoryFilter = document.querySelector<HTMLSelectElement>(
-  "#filterTasksByCategory",
-);
-
-const memberFilter = document.querySelector<HTMLSelectElement>(
-  "#filterTasksByMember",
-);
 
 categoryFilter?.addEventListener("change", async () => {
   await loadTasks();
@@ -343,7 +344,7 @@ export async function loadTasks() {
   try {
     const tasks = await getTaskForProject(projectId);
     const members = await fetchMembers();
-
+    /* upprepning av kod som finns ovan
     const categoryFilter = document.querySelector<HTMLSelectElement>(
       "#filterTasksByCategory",
     );
@@ -353,6 +354,7 @@ export async function loadTasks() {
     );
 
     const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
+    */
 
     const selectedCategory = categoryFilter?.value ?? "all";
     const selectedMember = memberFilter?.value ?? "all";
