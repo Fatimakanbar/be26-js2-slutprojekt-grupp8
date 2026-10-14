@@ -10,35 +10,31 @@ const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
 
 const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
+addTaskBtn?.addEventListener("click", showTaskForm);
+
 const taskSortingSelect =
   document.querySelector<HTMLSelectElement>("#sortTasks");
+taskSortingSelect?.addEventListener("change", async () => {
+  await reloadTaskBoard();
+});
 
 const categoryFilterElement = document.querySelector<HTMLSelectElement>(
   "#filterTasksByCategory",
 );
+categoryFilterElement?.addEventListener("change", async () => {
+  await reloadTaskBoard();
+});
 
 const memberFilterElement = document.querySelector<HTMLSelectElement>(
   "#filterTasksByMember",
 );
+memberFilterElement?.addEventListener("change", async () => {
+  await reloadTaskBoard();
+});
 
 const members = await fetchMembers();
 
-await displayTaskBoard();
-
-//break to function (same way as submitForm)
-addTaskBtn?.addEventListener("click", showTaskForm);
-
-taskSortingSelect?.addEventListener("change", async () => {
-  await displayTaskBoard();
-});
-
-categoryFilterElement?.addEventListener("change", async () => {
-  await displayTaskBoard();
-});
-
-memberFilterElement?.addEventListener("change", async () => {
-  await displayTaskBoard();
-});
+await reloadTaskBoard();
 
 function showTaskForm(event: PointerEvent): void {
   event.preventDefault();
@@ -113,14 +109,14 @@ async function submitForm(event: SubmitEvent) {
       addTaskBtn.hidden = false;
     }
 
-    await displayTaskBoard();
+    await reloadTaskBoard();
   } catch (error) {
     console.error("Kunde inte spara uppgiften:", error);
     alert("Det gick inte att spara uppgiften. Försök igen senare.");
   }
 }
 
-export async function displayTaskBoard(): Promise<void> {
+export async function reloadTaskBoard(): Promise<void> {
   try {
     if (!projectId) {
       alert("Project ID is not available");
@@ -128,6 +124,7 @@ export async function displayTaskBoard(): Promise<void> {
     }
 
     const tasks = await getTaskForProject(projectId);
+
     const filterByCategoryValue = categoryFilterElement?.value ?? "all";
     const filterByMemberValue = memberFilterElement?.value ?? "all";
     const taskSortOrder = taskSortingSelect?.value ?? "deadline-desc";

@@ -1,7 +1,7 @@
 import { patchDeadline, patchPriority, patchAssignment, patchTaskStatus, deleteTask } from "../database/taskFirebaseRequest";
 import type { Member } from "../models/Member";
 import type { Task, Priority } from "../models/Task";
-import { displayTaskBoard } from "./taskBoard";
+import { reloadTaskBoard } from "./taskBoard";
 
 
 export async function createTaskCard(
@@ -129,7 +129,7 @@ export async function createTaskCard(
 
       try {
         await patchAssignment(task.id, memberSelect.value);
-        await displayTaskBoard();
+        await reloadTaskBoard();
       } catch (error) {
         console.error("Kunde inte tilldela medlem:", error);
         alert("Det gick inte att tilldela medlem. Försök igen senare.");
@@ -163,7 +163,7 @@ export async function createTaskCard(
       if (!task.id) return;
       try {
         await patchTaskStatus(task.id, "finished");
-        await displayTaskBoard();
+        await reloadTaskBoard();
       } catch (error) {
         console.error("Kunde inte avsluta uppgiften:", error);
         alert(
@@ -185,7 +185,7 @@ export async function createTaskCard(
     if (!confirmed) return;
     try {
       await deleteTask(task.id);
-      await displayTaskBoard();
+      await reloadTaskBoard();
     } catch (error) {
       console.error("Kunde inte ta bort uppgiften:", error);
       alert("Det gick inte att ta bort uppgiften. Försök igen senare.");
