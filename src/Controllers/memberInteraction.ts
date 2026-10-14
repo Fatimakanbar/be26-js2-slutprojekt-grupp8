@@ -1,6 +1,6 @@
 import { createMember, fetchMembers } from "../database/MemberFirebaseRequest";
 import { Member, type Category } from "../models/Member";
-import { getAllTasks } from "../database/TaskFirebaseRequest";
+import { getAllTasks } from "../database/taskFirebaseRequest";
 import { getProjects } from "../database/ProjectFirebaseRequest";
 
 const memberForm = document.querySelector<HTMLFormElement>("#MemberForm");
@@ -49,7 +49,7 @@ async function enrichMembers(members: Member[]): Promise<Member[]> {
 
   return members.map((member) => {
     const ongoing = tasks.filter(
-      (t) => t.assignedMemberID === member.id && t.status === "ongoing",
+      (t) => t.assignedMemberId === member.id && t.status === "ongoing",
     ).length;
 
     const projectNames = projects

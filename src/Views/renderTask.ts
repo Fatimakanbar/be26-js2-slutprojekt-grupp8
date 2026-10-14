@@ -109,11 +109,9 @@ export async function createTaskCard(
     members.forEach((member) => {
       const option = document.createElement("option");
 
-      //ta bort ?? "" då vi kommer alltid ha ett id för medlemmar
       option.value = member.id ?? "";
       option.textContent = member.name;
 
-      //ta bort?
       if (member.id === task.assignedMemberId) {
         option.selected = true;
       }
