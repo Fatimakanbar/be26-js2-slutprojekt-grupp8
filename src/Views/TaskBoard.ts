@@ -11,7 +11,7 @@ import {
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
-import { filterCategory, filterMember, sortTasks } from "./taskSorter";
+import { getFilteredSortedTasks } from "./taskSorter";
 
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
@@ -22,18 +22,20 @@ if (!projectId) {
 }
 
 const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
-const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
+const taskSortingSelect =
+  document.querySelector<HTMLSelectElement>("#sortTasks");
 
-const categoryFilter = document.querySelector<HTMLSelectElement>(
+const categoryFilterElement = document.querySelector<HTMLSelectElement>(
   "#filterTasksByCategory",
 );
 
-const memberFilter = document.querySelector<HTMLSelectElement>(
+const memberFilterElement = document.querySelector<HTMLSelectElement>(
   "#filterTasksByMember",
 );
 
 const tasks = await getTaskForProject(projectId);
 const members = await fetchMembers();
+
 await loadTasks();
 
 function showError(message: string): void {
@@ -62,15 +64,15 @@ addTaskBtn?.addEventListener("click", () => {
   taskFormContainer?.append(taskForm);
 });
 
-sortSelect?.addEventListener("change", async () => {
+taskSortingSelect?.addEventListener("change", async () => {
   await loadTasks();
 });
 
-categoryFilter?.addEventListener("change", async () => {
+categoryFilterElement?.addEventListener("change", async () => {
   await loadTasks();
 });
 
-memberFilter?.addEventListener("change", async () => {
+memberFilterElement?.addEventListener("change", async () => {
   await loadTasks();
 });
 
@@ -78,13 +80,13 @@ async function loadMemberFilter() {
   try {
     const members = await fetchMembers();
 
-    if (!memberFilter) return;
+    if (!memberFilterElement) return;
 
     members.forEach((member) => {
       const option = document.createElement("option");
       option.value = member.id;
       option.textContent = member.name;
-      memberFilter.append(option);
+      memberFilterElement.append(option);
     });
   } catch (error) {
     console.error("Kunde inte ladda medlemmar:", error);
@@ -324,16 +326,15 @@ export async function renderTask(
 
 export async function loadTasks() {
   try {
-    const selectedCategory = categoryFilter?.value ?? "all";
-    const selectedMember = memberFilter?.value ?? "all";
+    const filterByCategoryValue = categoryFilterElement?.value ?? "all";
+    const filterByMemberValue = memberFilterElement?.value ?? "all";
+    const taskSortOrder = taskSortingSelect?.value ?? "deadline-desc";
 
-    const categoryFilteredTasks = filterCategory(tasks, selectedCategory);
-
-    const filteredTasks = filterMember(categoryFilteredTasks, selectedMember);
-
-    const sortedTasks = sortTasks(
-      filteredTasks,
-      sortSelect?.value ?? "deadline-desc",
+    const sortedTasks = getFilteredSortedTasks(
+      tasks,
+      filterByCategoryValue,
+      filterByMemberValue,
+      taskSortOrder,
     );
 
     const newTasks = sortedTasks.filter((task) => task.status === "new");

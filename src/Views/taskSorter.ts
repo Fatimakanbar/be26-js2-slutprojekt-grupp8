@@ -1,17 +1,17 @@
 import type { Task } from "../models/Task";
 
 export function filterCategory(tasks: Task[], category: string): Task[] {
-    if (category === "all") {
-        return tasks;
-    }
-    return tasks.filter((task) => task.category === category);
+  if (category === "all") {
+    return tasks;
+  }
+  return tasks.filter((task) => task.category === category);
 }
 
 export function filterMember(tasks: Task[], memberId: string): Task[] {
-    if (memberId === "all") {
-        return tasks;
-    } 
-    return tasks.filter((task) => task.assignedMemberId === memberId);
+  if (memberId === "all") {
+    return tasks;
+  }
+  return tasks.filter((task) => task.assignedMemberId === memberId);
 }
 
 export function sortTasks(tasks: Task[], sortBy: string): Task[] {
@@ -34,4 +34,23 @@ export function sortTasks(tasks: Task[], sortBy: string): Task[] {
 
     return 0;
   });
-}   
+}
+
+export function getFilteredSortedTasks(
+  tasks: Task[],
+  filterByCategoryValue: string,
+  filterByMemberValue: string,
+  taskSortOrder: string,
+) {
+  const filteredTasksByCategory = filterCategory(tasks, filterByCategoryValue);
+  const tasksFilteredByCategoryAndMember = filterMember(
+    filteredTasksByCategory,
+    filterByMemberValue,
+  );
+
+  const sortedTasks = sortTasks(
+    tasksFilteredByCategoryAndMember,
+    taskSortOrder,
+  );
+  return sortedTasks;
+}
