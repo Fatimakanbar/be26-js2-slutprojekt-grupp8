@@ -15,7 +15,7 @@ import {
   filterCategory,
   filterMember,
   sortTasks,
-} from "./getFilteredAndSortedTasks";
+} from "./taskSorter";
 
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
