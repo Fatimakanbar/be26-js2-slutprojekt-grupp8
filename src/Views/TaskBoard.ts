@@ -11,14 +11,15 @@ import {
 import type { Category, Member } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { fetchMembers } from "../database/MemberFirebaseRequest";
-import {
-  filterCategory,
-  filterMember,
-  sortTasks,
-} from "./taskSorter";
+import { filterCategory, filterMember, sortTasks } from "./taskSorter";
 
 const params = new URLSearchParams(window.location.search);
 const projectId = params.get("id");
+
+if (!projectId) {
+  showError("Project ID is not available");
+  throw new Error("Project ID is not available");
+}
 
 const addTaskBtn = document.querySelector<HTMLButtonElement>("#addTaskBtn");
 const sortSelect = document.querySelector<HTMLSelectElement>("#sortTasks");
@@ -31,11 +32,13 @@ const memberFilter = document.querySelector<HTMLSelectElement>(
   "#filterTasksByMember",
 );
 
+const tasks = await getTaskForProject(projectId);
+const members = await fetchMembers();
+await loadTasks();
+
 function showError(message: string): void {
   alert(message);
 }
-
-await loadTasks();
 
 //break to function (same way as submitForm)
 addTaskBtn?.addEventListener("click", () => {
@@ -319,16 +322,8 @@ export async function renderTask(
   return taskCard;
 }
 
-
 export async function loadTasks() {
-  if (!projectId) {
-    return;
-  }
-
   try {
-    const tasks = await getTaskForProject(projectId);
-    const members = await fetchMembers();
-
     const selectedCategory = categoryFilter?.value ?? "all";
     const selectedMember = memberFilter?.value ?? "all";
 
@@ -350,7 +345,7 @@ export async function loadTasks() {
     );
 
     const newTaskContainer = document.querySelector("#newTasksContainer");
-   
+
     newTaskContainer?.replaceChildren();
 
     newTasks.forEach(async (task) => {
@@ -364,7 +359,7 @@ export async function loadTasks() {
     const ongoingTaskContainer = document.querySelector(
       "#ongoingTasksContainer",
     );
-  
+
     ongoingTaskContainer?.replaceChildren();
 
     ongoingTasks.forEach(async (task) => {
@@ -376,7 +371,7 @@ export async function loadTasks() {
     });
 
     const doneTaskContainer = document.querySelector("#doneTasksContainer");
-    
+
     doneTaskContainer?.replaceChildren();
 
     finishedTasks.forEach(async (task) => {
