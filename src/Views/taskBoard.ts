@@ -1,5 +1,5 @@
 import { Task, type Priority } from "../models/Task";
-import { postTask, getTaskForProject } from "../database/taskFirebaseRequest";
+import { postTask, getTaskForProject } from "../database/taskFirebaseRequests";
 import type { Category } from "../models/Member";
 import { createTaskForm } from "./forms/taskForm";
 import { fetchMembers } from "../database/memberFirebaseRequest";

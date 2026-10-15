@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { Member } from "../models/Member";
-import { DATABASE_URL } from "../database/fireBaseClientConfig";
-=======
-import { Member } from "../models/member";
 import { DATABASE_URL } from "./fireBaseClientConfig";
->>>>>>> 75c1899a2123295035faa58a620cf7d8e7eb5561
 
 //!hämtar members från firebase
 export async function fetchMembers(): Promise<Member[]> {
