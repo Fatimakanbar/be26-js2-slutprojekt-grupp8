@@ -1,6 +1,6 @@
 import { createMember, fetchMembers } from "../database/MemberFirebaseRequest";
 import { Member, type Category } from "../models/Member";
-import { getAllTasks } from "../database/TaskFirebaseRequest";
+import { getAllTasks } from "../database/taskFirebaseRequest";
 import { getProjects } from "../database/ProjectFirebaseRequest";
 
 const memberForm = document.querySelector<HTMLFormElement>("#MemberForm");

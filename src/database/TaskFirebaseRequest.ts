@@ -19,7 +19,7 @@ type FirebaseTaskResponse = {
   [id: string]: FirebaseTask;
 } | null;
 
-export async function postTask(task: Task): Promise<Response> {
+export async function postTask(task: Task): Promise<string> {
   const options = {
     method: "POST",
     body: JSON.stringify(task),
@@ -35,8 +35,9 @@ export async function postTask(task: Task): Promise<Response> {
       `Kunde inte spara uppgiften i databasen. HTTP-status: ${response.status}`,
     );
   }
+  const data = (await response.json()) as { id: string };
 
-  return response;
+  return data.id;
 }
 
 export async function getAllTasks(): Promise<Task[]> {

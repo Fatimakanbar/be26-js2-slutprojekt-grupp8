@@ -33,26 +33,3 @@ export async function createMember(member: Member): Promise<string> {
   const result = await response.json();
   return result.name; //!det nya id:t som Firebase gav
 }
-
-//!uppdaterar en medlem (t.ex. taskAmount eller projectIds)
-export async function updateMember(
-  id: string,
-  updates: Partial<Member>,
-): Promise<void> {
-  const options = {
-    method: "PATCH",
-    body: JSON.stringify(updates),
-    headers: { "Content-Type": "application/json" },
-  };
-
-  const response = await fetch(`${DATABASE_URL}/Members/${id}.json`, options);
-  if (!response.ok) throw new Error("Kunde inte uppdatera medlem!!!!");
-}
-
-//!raderar en medlem
-export async function deleteMember(id: string): Promise<void> {
-  const response = await fetch(`${DATABASE_URL}/Members/${id}.json`, {
-    method: "DELETE",
-  });
-  if (!response.ok) throw new Error("Kunde inte radera medlem!!!!");
-}
