@@ -21,8 +21,6 @@ import "./Views/Overview";
 
 // console.log(response);
 
-
-
 import { initMemberForm, renderMembers } from "./Controllers/memberInteraction";
 
 initMemberForm();

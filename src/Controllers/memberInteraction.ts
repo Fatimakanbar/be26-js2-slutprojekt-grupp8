@@ -48,8 +48,9 @@ async function enrichMembers(members: Member[]): Promise<Member[]> {
   const [tasks, projects] = await Promise.all([getAllTasks(), getProjects()]);
 
   return members.map((member) => {
+    //*Pågående uppgifter
     const ongoing = tasks.filter(
-      (t) => t.assignedMemberID === member.id && t.status === "ongoing",
+      (t) => t.assignedMemberId === member.id && t.status === "ongoing",
     ).length;
 
     const projectNames = projects
@@ -110,7 +111,7 @@ export function initMemberForm(): void {
     try {
       await createMember(new Member("", name, category));
       memberForm.reset();
-      if (errorText) errorText.textContent = "kunde inte skapa medlem------";
+      if (errorText) errorText.textContent = "kunde inte skapa medlem";
 
       memberFormContainer.hidden = true;
       addMemberBtn.hidden = false;
