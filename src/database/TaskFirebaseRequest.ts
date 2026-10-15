@@ -1,5 +1,5 @@
 import { type Category } from "../models/member";
-import { Task, type Priority, type Status } from "../models/Task";
+import { Task, type Priority, type Status } from "../models/task";
 import { urlBuilder } from "./fireBaseClientConfig";
 
 type FirebaseTask = {
