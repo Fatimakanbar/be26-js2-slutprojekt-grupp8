@@ -1,7 +1,7 @@
 import { CreateProject } from "../../database/projectFirebaseRequest";
 import { Project } from "../../models/Projects";
 import { fetchMembers } from "../../database/memberFirebaseRequest";
-import { displayProjects } from "../Overview";
+import { displayProjects } from "../overviews";
 const addProjectBtn = document.querySelector(
   "#addProjectBtn",
 ) as HTMLButtonElement;

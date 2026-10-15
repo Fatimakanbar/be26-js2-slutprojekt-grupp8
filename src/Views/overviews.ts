@@ -1,8 +1,11 @@
 import { getProjects } from "../database/projectFirebaseRequest";
+<<<<<<< HEAD:src/Views/Overview.ts
 import { getAllTasks } from "../database/taskFirebaseRequest";
+=======
+import { getAllTasks } from "../database/taskFirebaseRequests";
+>>>>>>> 75c1899a2123295035faa58a620cf7d8e7eb5561:src/Views/overviews.ts
 import { Task } from "../models/Task";
 import { Project } from "../models/Projects";
-import type { Status } from "../models/Task";
 
 const projectContainer = document.querySelector(
   "#projectContainer",
