@@ -48,3 +48,7 @@ Dzemila – uppgiftshantering
 Fatima – medlemshantering
 
 ## Liveversion
+
+Netlify länk:
+
+https://be26-js2-slutprojekt-grupp8.netlify.app/
