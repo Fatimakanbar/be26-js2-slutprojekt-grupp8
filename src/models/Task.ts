@@ -1,4 +1,4 @@
-import type { Category } from "./member";
+import type { Category } from "./Member";
 
 export type Priority = 1 | 2 | 3;
 

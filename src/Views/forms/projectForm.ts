@@ -1,4 +1,4 @@
-import { CreateProject } from "../../database/ProjectFirebaseRequest";
+import { CreateProject } from "../../database/projectFirebaseRequest";
 import { Project } from "../../models/Projects";
 import { fetchMembers } from "../../database/memberFirebaseRequest";
 import { displayProjects } from "../Overview";

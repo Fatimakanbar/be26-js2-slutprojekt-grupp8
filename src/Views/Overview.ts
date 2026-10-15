@@ -1,4 +1,4 @@
-import { getProjects } from "../database/ProjectFirebaseRequest";
+import { getProjects } from "../database/projectFirebaseRequest";
 import { getAllTasks } from "../database/taskFirebaseRequest";
 import { Task } from "../models/Task";
 import { Project } from "../models/Projects";

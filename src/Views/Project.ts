@@ -1,4 +1,4 @@
-import { getProjects } from "../database/ProjectFirebaseRequest";
+import { getProjects } from "../database/projectFirebaseRequest";
 import { fetchMembers } from "../database/memberFirebaseRequest";
 
 async function displayProjectDetails() {

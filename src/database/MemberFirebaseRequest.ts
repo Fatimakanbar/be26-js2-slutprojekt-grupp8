@@ -1,4 +1,4 @@
-import { Member } from "../models/member";
+import { Member } from "../models/Member";
 import { DATABASE_URL } from "../database/fireBaseClientConfig";
 
 //!hämtar members från firebase
