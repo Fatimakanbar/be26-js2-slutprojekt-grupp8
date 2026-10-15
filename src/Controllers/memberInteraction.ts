@@ -1,5 +1,5 @@
-import { createMember, fetchMembers } from "../database/MemberFirebaseRequest";
-import { Member, type Category } from "../models/Member";
+import { createMember, fetchMembers } from "../database/memberFirebaseRequest";
+import { Member, type Category } from "../models/member";
 import { getAllTasks } from "../database/taskFirebaseRequest";
 import { getProjects } from "../database/ProjectFirebaseRequest";
 

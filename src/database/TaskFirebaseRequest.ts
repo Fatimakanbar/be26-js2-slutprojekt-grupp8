@@ -1,4 +1,4 @@
-import { type Category } from "../models/Member";
+import { type Category } from "../models/member";
 import { Task, type Priority, type Status } from "../models/Task";
 import { urlBuilder } from "./fireBaseClientConfig";
 

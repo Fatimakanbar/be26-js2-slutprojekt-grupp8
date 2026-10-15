@@ -1,5 +1,5 @@
 import { getProjects } from "../database/ProjectFirebaseRequest";
-import { fetchMembers } from "../database/MemberFirebaseRequest";
+import { fetchMembers } from "../database/memberFirebaseRequest";
 
 async function displayProjectDetails() {
   const projects = await getProjects();
