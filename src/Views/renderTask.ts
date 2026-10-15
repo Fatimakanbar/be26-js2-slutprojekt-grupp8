@@ -1,12 +1,17 @@
-import { patchDeadline, patchPriority, patchAssignment, patchTaskStatus, deleteTask } from "../database/taskFirebaseRequest";
+import {
+  patchDeadline,
+  patchPriority,
+  patchAssignment,
+  patchTaskStatus,
+  deleteTask,
+} from "../database/taskFirebaseRequests";
 import type { Member } from "../models/Member";
 import type { Task, Priority } from "../models/Task";
 import { reloadTaskBoard } from "./taskBoard";
 
-
 export async function createTaskCard(
   task: Task,
-  members: Member[]
+  members: Member[],
 ): Promise<HTMLDivElement> {
   const taskCard = document.createElement("div");
 
@@ -87,7 +92,7 @@ export async function createTaskCard(
 
     const memberName = document.createElement("p");
     const assignedMember = members.find(
-      (member) => member.id === task.assignedMemberId
+      (member) => member.id === task.assignedMemberId,
     );
     if (assignedMember) {
       memberName.textContent = assignedMember.name;
@@ -139,7 +144,7 @@ export async function createTaskCard(
     const finishedDate = document.createElement("p");
 
     finishedDate.textContent = `Avslutad: ${new Date(
-      task.finishedDate
+      task.finishedDate,
     ).toLocaleString("sv-SE", {
       year: "numeric",
       month: "2-digit",
@@ -165,7 +170,7 @@ export async function createTaskCard(
       } catch (error) {
         console.error("Kunde inte avsluta uppgiften:", error);
         alert(
-          "Det gick inte att markera uppgiften som klar. Försök igen senare."
+          "Det gick inte att markera uppgiften som klar. Försök igen senare.",
         );
       }
     });

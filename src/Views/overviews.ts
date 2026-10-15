@@ -1,8 +1,7 @@
-import { getProjects } from "../database/ProjectFirebaseRequest";
-import { getAllTasks } from "../database/taskFirebaseRequest";
+import { getProjects } from "../database/projectFirebaseRequest";
+import { getAllTasks } from "../database/taskFirebaseRequests";
 import { Task } from "../models/Task";
 import { Project } from "../models/Projects";
-import type { Status } from "../models/Task";
 
 const projectContainer = document.querySelector(
   "#projectContainer",

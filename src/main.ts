@@ -1,5 +1,5 @@
 import "./Views/forms/projectForm";
-import "./Views/Overview";
+import "./Views/overviews.ts";
 
 import { initMemberForm, renderMembers } from "./Controllers/memberInteraction";
 

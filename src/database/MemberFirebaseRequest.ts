@@ -1,5 +1,5 @@
 import { Member } from "../models/member";
-import { DATABASE_URL } from "../database/fireBaseClientConfig";
+import { DATABASE_URL } from "./fireBaseClientConfig";
 
 //!hämtar members från firebase
 export async function fetchMembers(): Promise<Member[]> {
