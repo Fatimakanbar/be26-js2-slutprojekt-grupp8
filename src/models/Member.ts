@@ -14,7 +14,6 @@ export class Member {
     taskAmount: number = 0,
     projectIds: string[] = [],
   ) {
-    // !Sparar värdena från parametrarna i klassens fält
     this._id = id;
     this._name = name;
     this._category = category;
@@ -48,7 +47,6 @@ export class Member {
     this._taskAmount = value;
   }
 
-  //! datan som ska skcikas till firebase
   toFirebaseObject() {
     return {
       name: this._name,

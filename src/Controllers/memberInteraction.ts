@@ -14,9 +14,9 @@ const addMemberBtn = document.querySelector<HTMLButtonElement>("#addMemberBtn");
 const memberFormContainer = document.querySelector<HTMLDivElement>(
   "#memberFormContainer",
 );
+
 const cancelMemberBtn =
   document.querySelector<HTMLButtonElement>("#cancelMemberBtn");
-
 let members: Member[] = [];
 
 function draw(): void {
@@ -43,12 +43,10 @@ function createMemberElement(member: Member): HTMLLIElement {
   return li;
 }
 
-//*Räkna ut taskAmount och projectIds
 async function enrichMembers(members: Member[]): Promise<Member[]> {
   const [tasks, projects] = await Promise.all([getAllTasks(), getProjects()]);
 
   return members.map((member) => {
-    //*Pågående uppgifter
     const ongoing = tasks.filter(
       (t) => t.assignedMemberId === member.id && t.status === "ongoing",
     ).length;
@@ -111,7 +109,7 @@ export function initMemberForm(): void {
     try {
       await createMember(new Member("", name, category));
       memberForm.reset();
-      if (errorText) errorText.textContent = "kunde inte skapa medlem";
+      if (errorText) errorText.textContent = "";
 
       memberFormContainer.hidden = true;
       addMemberBtn.hidden = false;
